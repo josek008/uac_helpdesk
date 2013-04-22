@@ -1,0 +1,22 @@
+<% provide(:title, "Iniciar sesión") %>
+<h1> Iniciar sesión </h1>
+
+<div class="row">
+	<div class="span6 offset3">
+		<%= form_for(:session, url: sessions_path, class: "form-horizontal") do |f| %>
+
+		<div class="control-group">
+			<%= f.label :email, class: "control-label" %>
+			<%= f.text_field :email %>
+		</div>
+		<div class="control-group">
+			<%= f.label :password, class: "control-label" %>
+			<%= f.password_field :password %>
+		</div>
+		<%= f.submit "Iniciar sesión", class: "btn btn-large btn-primary" %>
+		<% end %>
+
+		<p>Eres un usuario nuevo? <%= link_to "Regístrate ya!", signup_path %></p>
+	</div>
+</div>
+
