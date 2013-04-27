@@ -7,11 +7,11 @@ class CreateTickets < ActiveRecord::Migration
       t.datetime :resolution_date
       t.datetime :closed_date
 
-      t.references :created_by
-      t.references :ticket_status, default: 1
-      t.references :ticket_type
-      t.references :category
-      t.references :survey_score
+      t.integer :user_id
+      t.integer :ticket_status_id, default: 1
+      t.integer :ticket_type_id
+      t.integer :category_id
+      t.integer :survey_score_id
 
       t.timestamps
     end

@@ -14,3 +14,25 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
+
+
+$(document).ready(function() {
+
+	$("#widget_category").bind('ajax:success', function(evt, data, status, xhr){
+		var select = $('#ticket_category_id');
+		var length = data.length;
+
+		select.empty();
+
+		if (data !== null) {
+			select.removeAttr('disabled');
+			for(var j = 0; j < length; j++)
+			{
+				select.append($('<option>', { value: data[j].id })
+					.text(data[j].name));
+			}
+		} else {
+			select.attr('disabled', 'disabled');
+		}
+	});
+});

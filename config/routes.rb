@@ -2,7 +2,8 @@ UacHelpdesk::Application.routes.draw do
 
   root :to => 'static_pages#home'
 
-  resources :users  
+  resources :users
+  resources :tickets  
   resources :sessions,      only: [:new, :create, :destroy] 
 
   match '/help',    to: 'static_pages#help'
@@ -13,6 +14,7 @@ UacHelpdesk::Application.routes.draw do
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
 
+  match '/subcategories', to: 'categories#subcategories'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -11,7 +11,7 @@ namespace :db do
 		make_ticket_types
 		make_categories
 		make_subcategories
-		#make_tickets
+		make_tickets
 	end
 end
 
@@ -107,34 +107,40 @@ def make_categories
 end
 
 def make_subcategories
-	Category.create!(name: "Pantalla", 	parent_id: 0)
-	Category.create!(name: "Teclado", 	parent_id: 0)
-	Category.create!(name: "Mouse", 	parent_id: 0)
-	Category.create!(name: "Speakers", 	parent_id: 0)
-	Category.create!(name: "PC", 		parent_id: 0)
-	Category.create!(name: "Disco Duro Portatil", 	parent_id: 0)
-	Category.create!(name: "Fuente de Poder", 		parent_id: 0)
-	Category.create!(name: "UPS", 		 parent_id: 0)
-	Category.create!(name: "Camara Web", parent_id: 0)
-	Category.create!(name: "Otros (Hardware)", 		parent_id: 0)
-	Category.create!(name: "Antivirus",  parent_id: 1)
-	Category.create!(name: "Microsoft Office", 		parent_id: 1)
-	Category.create!(name: "Correo Electronico", 	parent_id: 1)
-	Category.create!(name: "Sistema Academico", 	parent_id: 1)
-	Category.create!(name: "Sistema Operativo (Windows)", parent_id: 1)
-	Category.create!(name: "Sistema Operativo (Mac OS)",  parent_id: 1)
-	Category.create!(name: "Otros (Software)", 		parent_id: 1)
-	Category.create!(name: "Otros (General)", 		parent_id: 2)
+	category = Category.find_by_name("Hardware")
+	category.subcategories.create!(name: "Pantalla")
+	category.subcategories.create!(name: "Teclado")
+	category.subcategories.create!(name: "Mouse")
+	category.subcategories.create!(name: "Speakers")
+	category.subcategories.create!(name: "PC")
+	category.subcategories.create!(name: "Disco Duro Portatil")
+	category.subcategories.create!(name: "Fuente de Poder")
+	category.subcategories.create!(name: "UPS")
+	category.subcategories.create!(name: "Camara Web")
+	category.subcategories.create!(name: "Otros (Hardware)")
+
+	category = Category.find_by_name("Software")
+	category.subcategories.create!(name: "Antivirus")
+	category.subcategories.create!(name: "Microsoft Office")
+	category.subcategories.create!(name: "Correo Electronico")
+	category.subcategories.create!(name: "Sistema Academico")
+	category.subcategories.create!(name: "Sistema Operativo (Windows)")
+	category.subcategories.create!(name: "Sistema Operativo (Mac OS)")
+	category.subcategories.create!(name: "Otros (Software)")
+
+	category = Category.find_by_name("Otros")
+	category.subcategories.create!(name: "Otros (General)")
+
 end
 
 def make_tickets
 	users = User.all(limit: 10)
-	10.times do
-		description = Faker::Lorem.sentence(5)
-		users.each do |user|
-			user.ticket.create!(description: description,
-				category: Category.where("parent_id IS NOT NULL").sample,
-				ticket_type: 1)
+	users.each do |user|
+		5.times do
+			description = Faker::Lorem.sentence(5)
+			user.tickets.create!(description: description,
+				category_id: Category.where("parent_id IS NOT NULL").sample.id,
+				ticket_type_id: TicketType.find_by_type_descr("Correctivo").id)
 		end
 	end
 end

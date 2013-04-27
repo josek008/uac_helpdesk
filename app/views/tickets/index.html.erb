@@ -1,0 +1,14 @@
+<% provide(:title, 'Mis Tickets') %>
+<h1>Mis Tickets</h1>
+
+<table class="table table-hover table-condensed">
+	<tr>
+		<td><strong>#</strong></td>
+		<td><strong>Descripción</strong></td>
+		<td><strong>Categoria</strong></td>
+		<td><strong>Estado</strong></td>
+	</tr>
+	<%= render @tickets %>
+</table>
+
+<%= will_paginate %>

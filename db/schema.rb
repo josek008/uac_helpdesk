@@ -67,13 +67,13 @@ ActiveRecord::Schema.define(:version => 20130422070441) do
     t.string   "description"
     t.datetime "resolution_date"
     t.datetime "closed_date"
-    t.integer  "created_by_id"
-    t.integer  "ticket_status_id"
+    t.integer  "user_id"
+    t.integer  "ticket_status_id", :default => 1
     t.integer  "ticket_type_id"
     t.integer  "category_id"
     t.integer  "survey_score_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   create_table "users", :force => true do |t|
