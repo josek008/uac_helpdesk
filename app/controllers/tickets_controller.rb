@@ -8,6 +8,8 @@ class TicketsController < ApplicationController
 
 	def show
 		@ticket = Ticket.find(params[:id])
+		@logs = @ticket.logs.paginate(page: params[:page])
+		@log = @ticket.logs.build
 	end
 
 	def new

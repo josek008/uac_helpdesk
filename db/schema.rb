@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130422070441) do
+ActiveRecord::Schema.define(:version => 20130428235154) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -38,6 +38,15 @@ ActiveRecord::Schema.define(:version => 20130422070441) do
   end
 
   add_index "events", ["event_descr"], :name => "index_events_on_event_descr", :unique => true
+
+  create_table "logs", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "ticket_id"
+    t.integer  "event_id"
+    t.string   "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "survey_scores", :force => true do |t|
     t.string   "survey_descr"
@@ -74,7 +83,10 @@ ActiveRecord::Schema.define(:version => 20130422070441) do
     t.integer  "survey_score_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+    t.integer  "state"
   end
+
+  add_index "tickets", ["state"], :name => "index_tickets_on_state"
 
   create_table "users", :force => true do |t|
     t.string   "name"

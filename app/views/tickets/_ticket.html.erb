@@ -4,7 +4,7 @@
 	<td><%= ticket.category.complete_name %></td>
 	<td><%= ticket.ticket_status.status_descr %></td>
 	<td>
-		<%= link_to "Ver", tickets_path, class: "btn" %>
+		<%= link_to "Ver", ticket, class: "btn" %>
 		<%= link_to "Modificar", edit_ticket_path(ticket), class: "btn" %>
 	</td>
 </tr>

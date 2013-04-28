@@ -1,0 +1,6 @@
+<% if @logs.any? %>
+<ol class ="logs">
+	<%= render partial: 'shared/log', collection: @logs %>
+</ol>
+<%= will_paginate @logs %>
+<% end %>

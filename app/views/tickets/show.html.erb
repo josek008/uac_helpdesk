@@ -1,0 +1,19 @@
+<% provide(:title, "Ticket ##{@ticket.id}") %>
+<section>
+	<legend>Detalle</legend>
+	<%= render 'shared/ticket_detail' %>
+</section>
+
+<section>
+	<legend>Nuevo Seguimiento</legend>
+	<%= render 'shared/log_form' %>
+</section>
+
+<section>
+	<legend>Historial</legend>
+	<div class="container">
+		<%= render 'shared/logs' %>
+	</div>
+</section>
+
+
