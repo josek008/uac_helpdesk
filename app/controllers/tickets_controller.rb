@@ -24,17 +24,23 @@ class TicketsController < ApplicationController
 		end
 	end
 
+	def edit
+		@ticket = Ticket.find(params[:id])
+	end
+
 	def destroy
 		Ticket.find(params[:id]).destroy
 		flash[:success] = "Ticket eliminado."
 		redirect_to root_url
 	end
 
-	def edit
-	end
-
 	def update
-		if @ticket.update_attributes(params[:ticket])
+		@ticket = Ticket.find(params[:id])
+
+		@ticket.ticket_status_id = params[:ticket][:ticket_status_id]
+		@ticket.category_id 	 = params[:ticket][:category_id]
+
+		if @ticket.save
 			flash[:success] = "Ticket actualizado."
 			redirect_to root_url
 		else
