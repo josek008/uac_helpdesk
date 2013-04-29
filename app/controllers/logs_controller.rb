@@ -4,7 +4,7 @@ class LogsController < ApplicationController
 		ticket = Ticket.find_by_id(params[:log][:ticket_id])
 		@log = ticket.logs.build(params[:log])
 		@log.user_id = current_user.id
-		@log.event_id = Event.find_by_event_descr("Seguimiento").id
+		@log.event = "Seguimiento"
 
 		if @log.save
 			flash[:success] = "Historial de ticket actualizado!"

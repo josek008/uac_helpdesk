@@ -8,8 +8,8 @@
 		<%= render 'shared/error_messages', object: f.object %>
 
 		<div class="control-group">
-			<%= f.label :description, class: "control-label" %>
-			<%= f.text_field :description %>
+			<%= f.label "Descripción", class: "control-label" %>
+			<%= f.text_field :description, placeholder:"Incluye una breve descripción de tu solicitud." %>
 		</div>
 
 		<div class="control-group">
@@ -25,6 +25,11 @@
 		<div class="control-group">
 			<%= f.label :ticket_type_id, "Selecciona el tipo de ticket:", class: "control-label" %>
 			<%= f.collection_select :ticket_type_id, TicketType.all, :id, :type_descr %>
+		</div>
+
+		<div class="control-group">
+			<%= label_tag :content, "Detalle del Incidente", class: "control-label" %>
+			<%= text_area_tag :content, nil, placeholder: "Explique detalladamente el incidente..", required: true %>
 		</div>
 
 		<%= f.submit "Crear!", class: "btn btn-large btn-primary" %>

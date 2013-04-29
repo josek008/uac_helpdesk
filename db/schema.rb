@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(:version => 20130428235154) do
   create_table "logs", :force => true do |t|
     t.integer  "user_id"
     t.integer  "ticket_id"
-    t.integer  "event_id"
+    t.string   "event"
     t.string   "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -55,14 +55,6 @@ ActiveRecord::Schema.define(:version => 20130428235154) do
   end
 
   add_index "survey_scores", ["survey_descr"], :name => "index_survey_scores_on_survey_descr", :unique => true
-
-  create_table "ticket_statuses", :force => true do |t|
-    t.string   "status_descr"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
-  add_index "ticket_statuses", ["status_descr"], :name => "index_ticket_statuses_on_status_descr", :unique => true
 
   create_table "ticket_types", :force => true do |t|
     t.string   "type_descr"
@@ -83,7 +75,7 @@ ActiveRecord::Schema.define(:version => 20130428235154) do
     t.integer  "survey_score_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.integer  "state"
+    t.string   "state"
   end
 
   add_index "tickets", ["state"], :name => "index_tickets_on_state"

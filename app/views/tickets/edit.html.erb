@@ -7,7 +7,6 @@
 		<%= form_for(@ticket, class: "form-horizontal") do |f| %>
 		<%= render 'shared/error_messages', object: f.object %>
 
-
 		<div class="control-group">
 			<%= label_tag :parent_category, "Selecciona la categoria principal:", class: "control-label" %>
 			<%= collection_select(:widget, :category, Category.where("parent_id IS NULL"), :id, :name, {:include_blank => true}, "data-remote" => true, "data-url" => "/subcategories", "data-type" => :json )%>
@@ -16,11 +15,6 @@
 		<div class="control-group">
 			<%= label_tag :category, "Selecciona la categoria secundaria:", class: "control-label" %>
 			<%= f.select :category_id, [], { :include_blank => true }, :disabled => true %>
-		</div>
-
-		<div class="control-group">
-			<%= f.label :ticket_status_id, "Actualizar estado:", class: "control-label" %>
-			<%= f.collection_select :ticket_status_id, TicketStatus.all, :id, :status_descr %>
 		</div>
 
 		<%= f.submit "Guardar", class: "btn btn-large btn-primary" %>

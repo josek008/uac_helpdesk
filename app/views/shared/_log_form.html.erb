@@ -1,7 +1,7 @@
 <%= form_for (@log) do |f| %>
 <%= render 'shared/error_messages', object: f.object %>
 <div class="row">
-	<div class="span6">
+	<div class="span12">
 		<%= f.text_area :content, placeholder: "Si posees alguna actualización, duda o requerimiento referente este ticket, incluyelo aqui." %>
 		<%= f.hidden_field :ticket_id, value: @ticket.id %>
 	</div>

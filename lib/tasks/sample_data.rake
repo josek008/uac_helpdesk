@@ -7,7 +7,6 @@ namespace :db do
 		make_users
 		make_events
 		make_survey_scores
-		make_ticket_statuses
 		make_ticket_types
 		make_categories
 		make_subcategories
@@ -87,12 +86,6 @@ def make_survey_scores
 	SurveyScore.create!(survey_descr: "Neutral")
 	SurveyScore.create!(survey_descr: "Satisfecho")
 	SurveyScore.create!(survey_descr: "Muy Satisfecho")
-end
-
-def make_ticket_statuses
-	TicketStatus.create!(status_descr: "Abierto")
-	TicketStatus.create!(status_descr: "En espera por acción")
-	TicketStatus.create!(status_descr: "Cerrado")
 end
 
 def make_ticket_types

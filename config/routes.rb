@@ -3,7 +3,13 @@ UacHelpdesk::Application.routes.draw do
   root :to => 'static_pages#home'
 
   resources :users
-  resources :tickets  
+  resources :tickets do
+    member do
+      get 'hold'
+      put 'hold' 
+    end
+  end
+
   resources :sessions,  only: [:new, :create, :destroy] 
   resources :logs,      only: [:create, :destroy] 
 

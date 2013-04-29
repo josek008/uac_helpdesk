@@ -1,11 +1,9 @@
 <section>
-	<li class="<%= log.event.event_descr.downcase %>">
-		<span class="event">
-			<%= log.event.event_descr %>
-		</span>
+	<li>
+		<span class="<%= log_class(log.event) %>"><%= log.event %></span>
 		<span class="content"><%= wrap(log.content) %></span>
 		<span class="timestamp">
-			Realizado <%= time_ago_in_words(log.created_at) %> por <%= log.user.name %>
+			Realizado hace <%= time_ago_in_words(log.created_at) %> por <%= log.user.name %>
 		</span>
 	</li>
 </section>

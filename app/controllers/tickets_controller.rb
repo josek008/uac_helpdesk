@@ -20,6 +20,7 @@ class TicketsController < ApplicationController
 		@ticket = current_user.tickets.build(params[:ticket])
 		if @ticket.save
 			flash[:success] = "Tu ticket ha sido creado satisfactoriamente!!"
+			log_this(@ticket.id, "Abierto", params[:content])
 			redirect_to root_url
 		else
 			render 'new'
@@ -36,11 +37,22 @@ class TicketsController < ApplicationController
 		redirect_to root_url
 	end
 
+	def hold
+		@ticket = Ticket.find(params[:id])
+		if params.has_key?(:content)
+			if @ticket.put_on_hold
+				log_this(@ticket.id, "En espera", params[:content])
+				flash[:success] = "Ticket puesto en estado de espera!"
+			else
+				flash[:error] = "No pude cambiar el estado al ticket, verifica su estado"
+				render 'index'
+			end
+		end
+	end
+
 	def update
 		@ticket = Ticket.find(params[:id])
-
-		@ticket.ticket_status_id = params[:ticket][:ticket_status_id]
-		@ticket.category_id 	 = params[:ticket][:category_id]
+		@ticket.category_id = params[:ticket][:category_id]
 
 		if @ticket.save
 			flash[:success] = "Ticket actualizado."
