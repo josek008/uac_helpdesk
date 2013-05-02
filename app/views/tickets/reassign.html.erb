@@ -1,0 +1,19 @@
+<% provide(:title, 'Reasignar ticket') %>
+<h1>Reasignando ticket: <%= @ticket.id %></h1>
+<div class="row">
+	<div class="span8 offset3">
+		<%= form_for(@log, class: "form-horizontal", url: reassign_url(id: @ticket.id)) do |f| %>
+		<%= render 'shared/error_messages', object: f.object %>
+
+		<div class="control-group">
+			<%= label_tag :parent_category, "Selecciona un tecnico:", class: "control-label" %>
+			<%= collection_select(:widget, :tech, User.is_tech, :id, :name, required: true)%>
+		</div>
+
+		<div class="control-group">
+			<%= f.text_area :content, placeholder: "Ingrese sus comentarios...", required: true %>
+		</div>
+		<%= f.submit "Reasignar", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>

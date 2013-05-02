@@ -5,4 +5,9 @@ module UsersHelper
 		gravatar_url = "https://secure.gravatar.com/avatars/#{gravatar_id}.png"
 		image_tag(gravatar_url, alt: user.name, class: "gravatar")
 	end
+
+	def random_tech
+		tech = User.is_tech.sample
+	end
+
 end

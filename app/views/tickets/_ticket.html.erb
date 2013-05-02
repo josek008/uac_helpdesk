@@ -2,7 +2,7 @@
 	<td><%= ticket.id %></td>
 	<td><%= ticket.description %></td>
 	<td><%= ticket.category.complete_name %></td>
-	<td><%= ticket.state %></td>
+	<td><span class="<%= state_class(ticket.state) %>"><%= ticket.state %></span></td>
 	<td>
 		<div class="btn-group">
 			<button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -18,9 +18,9 @@
 				<li class="dropdown-submenu pull-left">
 					<a tabindex="-1" href="#">Admin <i class="icon-lock"></i></a>
 					<ul class="dropdown-menu">
-						<li><%= link_to 'Reasignar <i class="icon-share-alt"></i>'.html_safe, "#" %></li>
-						<li><%= link_to 'Poner en espera <i class="icon-time"></i>'.html_safe, hold_ticket_path(ticket) %></li>
-						<li><%= link_to 'Cerrar <i class="icon-ok"></i>'.html_safe, "#" %></li>
+						<li><%= link_to 'Reasignar <i class="icon-share-alt"></i>'.html_safe, reassign_url(id: ticket.id) %></li>
+						<li><%= link_to 'Poner en espera <i class="icon-time"></i>'.html_safe, ticket_on_hold_url(id: ticket.id) %></li>
+						<li><%= link_to 'Cerrar <i class="icon-ok"></i>'.html_safe, closing_ticket_url(id: ticket.id) %></li>
 					</ul>
 				</li>
 			</ul>

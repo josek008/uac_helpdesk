@@ -3,12 +3,7 @@ UacHelpdesk::Application.routes.draw do
   root :to => 'static_pages#home'
 
   resources :users
-  resources :tickets do
-    member do
-      get 'hold'
-      put 'hold' 
-    end
-  end
+  resources :tickets
 
   resources :sessions,  only: [:new, :create, :destroy] 
   resources :logs,      only: [:create, :destroy] 
@@ -22,6 +17,10 @@ UacHelpdesk::Application.routes.draw do
   match '/signout', to: 'sessions#destroy', via: :delete
 
   match '/subcategories', to: 'categories#subcategories'
+
+  match '/ticket/:id/hold', to: 'tickets#hold', as: :ticket_on_hold
+  match '/ticket/:id/close', to: 'tickets#close', as: :closing_ticket
+  match '/ticket/:id/reassign', to: 'tickets#reassign', as: :reassign
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

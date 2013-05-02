@@ -1,16 +1,16 @@
 class LogsController < ApplicationController
 
 	def create
-		ticket = Ticket.find_by_id(params[:log][:ticket_id])
-		@log = ticket.logs.build(params[:log])
+		@ticket = Ticket.find_by_id(params[:log][:ticket_id])
+		@log = @ticket.logs.build(params[:log])
 		@log.user_id = current_user.id
 		@log.event = "Seguimiento"
 
 		if @log.save
 			flash[:success] = "Historial de ticket actualizado!"
-			redirect_to root_url
+			redirect_to @ticket
 		else
-			render 'static_pages/home'
+			redirect_to @ticket
 		end	
 	end
 

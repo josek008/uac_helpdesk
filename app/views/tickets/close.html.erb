@@ -1,0 +1,13 @@
+<% provide(:title, 'Cerrando ticket..') %>
+<h1>Cerrando ticket: <%= @ticket.id %></h1>
+<div class="row">
+	<div class="span8 offset3">
+		<%= form_for(@log, class: "form-horizontal", url: closing_ticket_url(id: @ticket.id)) do |f| %>
+		<%= render 'shared/error_messages', object: f.object %>
+		<div class="control-group">
+			<%= f.text_area :content, placeholder: "Ingrese sus comentarios...", required: true %>
+		</div>
+		<%= f.submit "Cerrar", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>

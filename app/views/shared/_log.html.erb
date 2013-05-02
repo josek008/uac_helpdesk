@@ -1,6 +1,6 @@
 <section>
 	<li>
-		<span class="<%= log_class(log.event) %>"><%= log.event %></span>
+		<span class="<%= state_class(log.event) %>"><%= log.event %></span>
 		<span class="content"><%= wrap(log.content) %></span>
 		<span class="timestamp">
 			Realizado hace <%= time_ago_in_words(log.created_at) %> por <%= log.user.name %>

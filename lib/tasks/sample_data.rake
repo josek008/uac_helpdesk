@@ -11,6 +11,7 @@ namespace :db do
 		make_categories
 		make_subcategories
 		make_tickets
+		assign_tickets
 	end
 end
 
@@ -51,12 +52,26 @@ def make_users
 	admin.toggle!(:admin)
 	admin.toggle!(:tech)
 
-	tech = User.create!(name: "Tech User",
-		email: "tech@domain.com",
+	tech1 = User.create!(name: "Tech User #1",
+		email: "tech1@domain.com",
 		department_id: 13,
 		password: "foobar",
 		password_confirmation: "foobar")
-	tech.toggle!(:tech)
+	tech1.toggle!(:tech)
+
+	tech2 = User.create!(name: "Tech User #2",
+		email: "tech2@domain.com",
+		department_id: 13,
+		password: "foobar",
+		password_confirmation: "foobar")
+	tech2.toggle!(:tech)
+
+	tech3 = User.create!(name: "Tech User #3",
+		email: "tech3@domain.com",
+		department_id: 13,
+		password: "foobar",
+		password_confirmation: "foobar")
+	tech3.toggle!(:tech)
 
 	50.times do |n|
 		name = Faker::Name.name
@@ -135,6 +150,14 @@ def make_tickets
 				category_id: Category.where("parent_id IS NOT NULL").sample.id,
 				ticket_type_id: TicketType.find_by_type_descr("Correctivo").id)
 		end
+	end
+end
+
+def assign_tickets
+	technicians = User.is_tech
+	technicians.each do |tech|
+		ticket = Ticket.all(limit: 10).sample
+		ticket.assign_to(tech)
 	end
 end
 
