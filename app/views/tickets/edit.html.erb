@@ -1,4 +1,4 @@
-<% provide(:title, 'Modifcar Ticket') %>
+<% provide(:title, 'Modificar Ticket') %>
 <h1>Modificar Ticket #<%= @ticket.id %></h1>
 
 <div class="row">
@@ -9,7 +9,7 @@
 
 		<div class="control-group">
 			<%= label_tag :parent_category, "Selecciona la categoria principal:", class: "control-label" %>
-			<%= collection_select(:widget, :category, Category.where("parent_id IS NULL"), :id, :name, {:include_blank => true}, "data-remote" => true, "data-url" => "/subcategories", "data-type" => :json )%>
+			<%= collection_select(:widget, :category, @categories, :id, :name, {:include_blank => true}, "data-remote" => true, "data-url" => "/subcategories", "data-type" => :json )%>
 		</div>
 
 		<div class="control-group">

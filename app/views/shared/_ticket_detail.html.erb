@@ -2,6 +2,7 @@
 	<li><strong># de Ticket: </strong><%= @ticket.id %></li>
 	<li><strong>Descripción: </strong><%= @ticket.description %></li>
 	<li><strong>Categoria: </strong><%= @ticket.category.complete_name %></li>
-	<li><strong>Fecha de Creación: </strong><%= @ticket.created_at.strftime("%d %b. %Y") %></li>
+	<li><strong>Asignado a: </strong><%= @ticket.assigned_tech.first.name %></li>
+	<li><strong>Fecha de Creación: </strong><%= @ticket.created_at.strftime("%d %b. %Y - %r") %></li>
 	<li><strong>Estado: </strong><td><span class="<%= state_class(@ticket.state) %>"><%= @ticket.state %></span></li>
 </ul>

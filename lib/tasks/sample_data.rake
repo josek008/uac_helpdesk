@@ -50,7 +50,6 @@ def make_users
 		password: "foobar",
 		password_confirmation: "foobar")
 	admin.toggle!(:admin)
-	admin.toggle!(:tech)
 
 	tech1 = User.create!(name: "Tech User #1",
 		email: "tech1@domain.com",
@@ -146,18 +145,29 @@ def make_tickets
 	users.each do |user|
 		5.times do
 			description = Faker::Lorem.sentence(5)
-			user.tickets.create!(description: description,
+			ticket = user.tickets.create!(description: description,
 				category_id: Category.where("parent_id IS NOT NULL").sample.id,
 				ticket_type_id: TicketType.find_by_type_descr("Correctivo").id)
+
+			log = Log.create!(ticket_id: ticket.id, content: Faker::Lorem.sentence(5), user_id: user.id)
+			log.event = "Abierto"
+			log.save
 		end
 	end
 end
 
 def assign_tickets
-	technicians = User.is_tech
-	technicians.each do |tech|
-		ticket = Ticket.all(limit: 10).sample
-		ticket.assign_to(tech)
+	
+	tickets = Ticket.all
+
+	tickets.each do |t|
+		tech = User.is_tech.sample
+		t.assign_to(tech)
+		t.assign
+		
+		log = Log.create!(ticket_id: t.id, content: "Asignado automaticamente a #{tech.name}", user_id: 1)
+		log.event = "Asignado"
+		log.save
 	end
 end
 

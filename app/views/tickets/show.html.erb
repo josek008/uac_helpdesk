@@ -4,10 +4,12 @@
 	<%= render 'shared/ticket_detail' %>
 </section>
 
+<% unless @ticket.marked_as_closed? || @ticket.closed? %>
 <section>
 	<legend>Nuevo Seguimiento</legend>
 	<%= render 'shared/log_form' %>
 </section>
+<% end %>
 
 <section>
 	<legend>Historial</legend>

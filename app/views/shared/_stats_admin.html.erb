@@ -1,0 +1,20 @@
+<a href="#">
+	<strong id="created" class="stat">
+		<%= Ticket.all.count %>
+	</strong>
+	creados
+</a>
+
+<a href="#">
+	<strong id="pending" class="stat">
+		<%= Ticket.pending.count %>
+	</strong>
+	pendientes
+</a>
+
+<a href="#">
+	<strong id="completed" class="stat">
+		<%= Ticket.find_all_by_state("Cerrado").count %>
+	</strong>
+	completados
+</a>

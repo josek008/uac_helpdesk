@@ -1,0 +1,5 @@
+<div class="stats">
+	<%= render 'shared/stats_tech' if @user.tech? %>
+	<%= render 'shared/stats_admin' if @user.admin? %>
+	<%= render 'shared/stats_user' if !@user.tech? && !@user.admin?%>
+</div>

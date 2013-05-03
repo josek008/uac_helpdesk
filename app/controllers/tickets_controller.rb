@@ -14,16 +14,18 @@ class TicketsController < ApplicationController
 
 	def new
 		@ticket = Ticket.new
+		@categories = Category.where("parent_id IS NULL")
+		@ticket_types = TicketType.all
 	end
 
 	def create
 		@ticket = current_user.tickets.build(params[:ticket])
 		if @ticket.save
+			log_this(@ticket.id, "Abierto", params[:content])
 			@random_tech = random_tech
 			if @ticket.assign_to(@random_tech)
-				@ticket.assign!
+				@ticket.assign
 				log_this(@ticket.id, "Asignado", "Asignado automaticamente a #{@random_tech.name}")
-				log_this(@ticket.id, "Abierto", params[:content])
 				flash[:success] = "Tu ticket ha sido creado satisfactoriamente!!"
 				redirect_to root_url
 			end
@@ -34,6 +36,7 @@ class TicketsController < ApplicationController
 
 	def edit
 		@ticket = Ticket.find(params[:id])
+		@categories = Category.where("parent_id IS NULL")
 	end
 
 	def destroy
@@ -74,6 +77,7 @@ class TicketsController < ApplicationController
 
 	def reassign
 		@ticket = Ticket.find(params[:id])
+		@technicians = User.is_tech
 		if params.has_key?(:log)
 			if @ticket.reassign
 				@new_tech = User.find(params[:widget][:tech])
@@ -96,7 +100,7 @@ class TicketsController < ApplicationController
 
 		if @ticket.save
 			flash[:success] = "Ticket actualizado."
-			redirect_to root_url
+			redirect_to @ticket
 		else
 			render 'edit'
 		end

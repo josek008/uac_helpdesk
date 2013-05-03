@@ -1,0 +1,20 @@
+<a href="#">
+	<strong id="assigned" class="stat">
+		<%= @user.assigned_tickets.count %>
+	</strong>
+	asignados
+</a>
+
+<a href="#">
+	<strong id="pending" class="stat">
+		<%= @user.assigned_tickets.merge(Ticket.pending).count %>
+	</strong>
+	pendientes
+</a>
+
+<a href="#">
+	<strong id="completed" class="stat">
+		<%= @user.assigned_tickets.find_all_by_state("Cerrado").count %>
+	</strong>
+	completados
+</a>

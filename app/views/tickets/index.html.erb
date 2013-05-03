@@ -6,10 +6,12 @@
 		<td><strong>#</strong></td>
 		<td><strong>Descripción</strong></td>
 		<td><strong>Categoría</strong></td>
+		<td><strong>Asignado a</strong></td>
+		<td><strong>Fecha</strong></td>
 		<td><strong>Estado</strong></td>
 		<td><strong>Acciones</strong></td>
 	</tr>
-	<%= render @tickets %>
+	<%= render partial: 'shared/ticket', collection: @tickets %>
 </table>
 
 <%= will_paginate %>

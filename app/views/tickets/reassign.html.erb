@@ -7,7 +7,7 @@
 
 		<div class="control-group">
 			<%= label_tag :parent_category, "Selecciona un tecnico:", class: "control-label" %>
-			<%= collection_select(:widget, :tech, User.is_tech, :id, :name, required: true)%>
+			<%= collection_select(:widget, :tech, @technicians, :id, :name, required: true)%>
 		</div>
 
 		<div class="control-group">

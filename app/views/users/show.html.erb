@@ -2,12 +2,13 @@
 <div class ="row">
 	<aside class="span4">
 		<section>
-			<h1>
-				<div class ="gravatar">
-					<%= gravatar_tag @user.email, size: 40 %>
-				</div>
-				<%= @user.name %>
-			</h1>
+			<%= render 'shared/user_detail' %>
+		</section>
+		<section>
+			<%= render 'shared/stats' %>
 		</section>
 	</aside>
+	<div class = "span8">
+		<%= render 'shared/tickets' %>
+	</div>
 </div>

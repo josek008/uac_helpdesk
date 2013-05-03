@@ -19,7 +19,7 @@
 
 		<div class="control-group">
 			<%= f.label :department_id, "Selecciona tu departamento", class: "control-label" %>
-			<%= f.collection_select :department_id, Department.all, :id, :name %>
+			<%= f.collection_select :department_id, @departments, :id, :name %>
 		</div>
 
 		<div class="control-group">

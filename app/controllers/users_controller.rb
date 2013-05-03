@@ -1,6 +1,8 @@
+# encoding: UTF-8
+
 class UsersController < ApplicationController
 	before_filter :signed_in_user, 	only: [:index, :edit, :update, :destroy]
-	before_filter :correct_user,	only: [:edit, :update]
+	before_filter :correct_user,	only: [:edit, :update, :show]
 	before_filter :admin_user,		only: :destroy
 	
 	def index
@@ -9,10 +11,13 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
+		@tickets = @user.tickets.paginate(page: params[:page])
+		@assigned_tickets = @user.assigned_tickets.paginate(page: params[:page])
 	end
 
 	def new
 		@user = User.new
+		@departments = Department.all
 	end
 
 	def create
@@ -27,6 +32,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit
+		@departments = Department.all
 	end
 
 	def destroy
@@ -49,7 +55,7 @@ class UsersController < ApplicationController
 
 	def correct_user
 		@user = User.find(params[:id])
-		redirect_to(root_path) unless current_user?(@user)
+		redirect_to(root_path) unless current_user?(@user) || current_user.admin?
 	end
 
 	def admin_user

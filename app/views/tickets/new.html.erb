@@ -14,7 +14,7 @@
 
 		<div class="control-group">
 			<%= label_tag :parent_category, "Selecciona la categoria principal:", class: "control-label" %>
-			<%= collection_select(:widget, :category, Category.where("parent_id IS NULL"), :id, :name, {:include_blank => true}, "data-remote" => true, "data-url" => "/subcategories", "data-type" => :json )%>
+			<%= collection_select(:widget, :category, @categories, :id, :name, {:include_blank => true}, "data-remote" => true, "data-url" => "/subcategories", "data-type" => :json )%>
 		</div>
 
 		<div class="control-group">
@@ -24,7 +24,7 @@
 
 		<div class="control-group">
 			<%= f.label :ticket_type_id, "Selecciona el tipo de ticket:", class: "control-label" %>
-			<%= f.collection_select :ticket_type_id, TicketType.all, :id, :type_descr %>
+			<%= f.collection_select :ticket_type_id, @ticket_types, :id, :type_descr %>
 		</div>
 
 		<div class="control-group">
