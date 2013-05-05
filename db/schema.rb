@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502005818) do
+ActiveRecord::Schema.define(:version => 20130505060549) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -40,14 +40,6 @@ ActiveRecord::Schema.define(:version => 20130502005818) do
 
   add_index "departments", ["name"], :name => "index_departments_on_name", :unique => true
 
-  create_table "events", :force => true do |t|
-    t.string   "event_descr"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "events", ["event_descr"], :name => "index_events_on_event_descr", :unique => true
-
   create_table "logs", :force => true do |t|
     t.integer  "user_id"
     t.integer  "ticket_id"
@@ -57,13 +49,27 @@ ActiveRecord::Schema.define(:version => 20130502005818) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "survey_scores", :force => true do |t|
-    t.string   "survey_descr"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+  create_table "scores", :force => true do |t|
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
-  add_index "survey_scores", ["survey_descr"], :name => "index_survey_scores_on_survey_descr", :unique => true
+  add_index "scores", ["description"], :name => "index_scores_on_description", :unique => true
+
+  create_table "surveys", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "tech_id"
+    t.integer  "user_id"
+    t.integer  "score_id"
+    t.string   "state"
+    t.string   "comments"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "surveys", ["ticket_id", "tech_id"], :name => "index_surveys_on_ticket_id_and_tech_id"
+  add_index "surveys", ["ticket_id"], :name => "index_surveys_on_ticket_id", :unique => true
 
   create_table "ticket_types", :force => true do |t|
     t.string   "type_descr"
@@ -75,30 +81,30 @@ ActiveRecord::Schema.define(:version => 20130502005818) do
 
   create_table "tickets", :force => true do |t|
     t.string   "description"
+    t.string   "state"
+    t.string   "closing_token"
     t.datetime "resolution_date"
     t.datetime "closed_date"
     t.integer  "user_id"
-    t.integer  "ticket_status_id", :default => 1
     t.integer  "ticket_type_id"
     t.integer  "category_id"
-    t.integer  "survey_score_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-    t.string   "state"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
+  add_index "tickets", ["closing_token"], :name => "index_tickets_on_closing_token", :unique => true
   add_index "tickets", ["state"], :name => "index_tickets_on_state"
 
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.integer  "department_id"
     t.string   "password_digest"
     t.string   "remember_token"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
     t.boolean  "tech",            :default => false
     t.boolean  "admin",           :default => false
+    t.integer  "department_id"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

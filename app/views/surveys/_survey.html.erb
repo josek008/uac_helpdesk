@@ -1,0 +1,23 @@
+<% if survey.answered? %>
+<tr class="<%= score_class(survey.score.description) %>">
+	<td><%= survey.id %></td>
+	<td><%= survey.comments %></td>
+	<td><%= survey.tech.name %></td>
+	<td>
+		<span class="badge badge-<%= score_class(survey.score.description) %>">
+			<%= survey.score.description %>
+		</span>
+	</td>
+	<td>
+		<div class="btn-group">
+			<button class="btn dropdown-toggle" data-toggle="dropdown">
+				<i class="icon-cog"></i>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><%= link_to 'Ver <i class="icon-zoom-in"></i>'.html_safe, survey %></li>
+			</ul>
+		</div>
+	</td>
+</tr>
+<% end %>

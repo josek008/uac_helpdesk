@@ -22,6 +22,8 @@ class UsersController < ApplicationController
 
 	def create
 		@user = User.new(params[:user])
+		@departments = Department.all
+		
 		if @user.save
 			sign_in @user
 			flash[:success] = "Bienvenido a UAC Helpdesk!"

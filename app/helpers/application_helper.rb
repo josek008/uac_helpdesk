@@ -11,14 +11,22 @@ module ApplicationHelper
 		end
 	end
 
-	def state_class(type)
-		case type
-			when "Seguimiento" 	then "label label-info"
-			when "Abierto"		then "label"
-			when "Cerrado"		then "label label-success"			
-			when "En espera"	then "label label-important"
-			when "Marcado como cerrado"	  then "label label-inverse"
-			when "Asignado", "Reasignado" then "label label-warning"
+	def state_class(state)
+		case state
+		when "Seguimiento" 	then "label label-info"
+		when "Abierto"		then "label"
+		when "Cerrado"		then "label label-success"			
+		when "En espera"	then "label label-info"
+		when "Marcado como cerrado"	  then "label label-inverse"
+		when "Asignado", "Reasignado" then "label label-warning"
+		end
+	end
+
+	def score_class(score)
+		case score
+		when "Muy Insatisfecho", "Insatisfecho" then "error"
+		when "Satisfecho", "Muy Satisfecho"		then "success"
+		when "Neutral"		then "info"
 		end
 	end
 

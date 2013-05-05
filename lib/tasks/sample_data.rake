@@ -5,9 +5,8 @@ namespace :db do
 	task populate: :environment do
 		make_departments
 		make_users
-		make_events
-		make_survey_scores
 		make_ticket_types
+		make_survey_scores
 		make_categories
 		make_subcategories
 		make_tickets
@@ -84,27 +83,17 @@ def make_users
 	end
 end
 
-def make_events
-	Event.create!(event_descr: "Creación")
-	Event.create!(event_descr: "Asignación")
-	Event.create!(event_descr: "Seguimiento")
-	Event.create!(event_descr: "Reasignación")
-	Event.create!(event_descr: "Marcado como 'Espera por acción'")
-	Event.create!(event_descr: "Marcado como 'Cerrado'")
-	Event.create!(event_descr: "Cerrado")
-end
-
-def make_survey_scores
-	SurveyScore.create!(survey_descr: "Muy Insatisfecho")
-	SurveyScore.create!(survey_descr: "Insatisfecho")
-	SurveyScore.create!(survey_descr: "Neutral")
-	SurveyScore.create!(survey_descr: "Satisfecho")
-	SurveyScore.create!(survey_descr: "Muy Satisfecho")
-end
-
 def make_ticket_types
 	TicketType.create!(type_descr: "Preventivo")
 	TicketType.create!(type_descr: "Correctivo")
+end
+
+def make_survey_scores
+	Score.create!(description: "Muy Insatisfecho")
+	Score.create!(description: "Insatisfecho")
+	Score.create!(description: "Neutral")
+	Score.create!(description: "Satisfecho")
+	Score.create!(description: "Muy Satisfecho")
 end
 
 def make_categories
@@ -157,7 +146,6 @@ def make_tickets
 end
 
 def assign_tickets
-	
 	tickets = Ticket.all
 
 	tickets.each do |t|

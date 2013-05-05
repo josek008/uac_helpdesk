@@ -1,5 +1,5 @@
 <% provide(:title, 'Reasignar ticket') %>
-<h1>Reasignando ticket: <%= @ticket.id %></h1>
+<h1>Reasignando Ticket #<%= @ticket.id %></h1>
 <div class="row">
 	<div class="span8 offset3">
 		<%= form_for(@log, class: "form-horizontal", url: reassign_url(id: @ticket.id)) do |f| %>

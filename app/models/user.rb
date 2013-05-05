@@ -23,6 +23,9 @@ class User < ActiveRecord::Base
 	has_many :tickets
 	has_many :assignments, dependent: :destroy
 	has_many :assigned_tickets, through: :assignments, source: :ticket
+	has_many :answered_surveys, class_name: "Survey", foreign_key: "user_id"
+	has_many :service_surveys, class_name: "Survey", foreign_key: "tech_id"
+
 	belongs_to :department
 	
 	has_secure_password
@@ -39,6 +42,10 @@ class User < ActiveRecord::Base
 
 	before_save { self.email.downcase! }
 	before_save :create_remember_token
+
+	def self.survey_avg_score
+		service_surveys.average.(:score)
+	end
 
 	private
 	

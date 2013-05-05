@@ -1,11 +1,13 @@
 class Ticket < ActiveRecord::Base
 	attr_accessible :description, :category_id, :ticket_type_id
-
+	
+	default_scope order: 'tickets.created_at DESC'
 	scope :pending, where("state != 'Cerrado' OR state != 'Marcado como cerrado'")
 
 	has_many :logs, dependent: :destroy
-	has_many :assignments, dependent: :destroy
-	has_many :assigned_tech, through: :assignments, source: :user
+	has_one :assignment, dependent: :destroy
+	has_one :assigned_tech, through: :assignment, source: :user
+	has_one :survey, dependent: :destroy
 	
 	belongs_to :user
 	belongs_to :category
@@ -16,6 +18,8 @@ class Ticket < ActiveRecord::Base
 	validates :user_id, 		presence: true
 	validates :category_id, 		presence: true
 	validates :ticket_type_id,	 	presence: true
+
+	before_save :create_closing_token
 
 	state_machine initial: :opened do
 		state :opened, 		value: 'Abierto'
@@ -52,7 +56,7 @@ class Ticket < ActiveRecord::Base
 	end
 
 	def assign_to(user)
-		assignments.create!(user_id: user.id)
+		create_assignment(user_id: user.id)
 	end
 
 	def deallocate_from(user)
@@ -66,6 +70,17 @@ class Ticket < ActiveRecord::Base
 	def reassign_to(user)
 		deallocate_from_all
 		assign_to(user)
+	end
+
+	def confirm_closed
+		self.closed_date = Time.now
+		self.close!
+	end
+
+	private
+	
+	def create_closing_token
+		self.closing_token = SecureRandom.urlsafe_base64
 	end
 
 end

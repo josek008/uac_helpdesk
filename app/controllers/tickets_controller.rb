@@ -1,5 +1,7 @@
+# encoding: UTF-8
+
 class TicketsController < ApplicationController
-	before_filter :signed_in_user, 	only: [:index, :new, :create, :show]
+	before_filter :signed_in_user, 	only: [:index, :new, :create, :show, :confirm_closed]
 	before_filter :admin_user, 		only: [:edit, :update, :destroy, :hold, :close]
 
 	def index
@@ -20,12 +22,16 @@ class TicketsController < ApplicationController
 
 	def create
 		@ticket = current_user.tickets.build(params[:ticket])
+		@categories = Category.where("parent_id IS NULL")
+		@ticket_types = TicketType.all
+		
 		if @ticket.save
 			log_this(@ticket.id, "Abierto", params[:content])
 			@random_tech = random_tech
 			if @ticket.assign_to(@random_tech)
 				@ticket.assign
-				log_this(@ticket.id, "Asignado", "Asignado automaticamente a #{@random_tech.name}")
+				log_this(@ticket.id, "Asignado", "Asignado automáticamente a #{@random_tech.name}")
+				TicketMailer.opened_ticket_confirmation(@ticket).deliver
 				flash[:success] = "Tu ticket ha sido creado satisfactoriamente!!"
 				redirect_to root_url
 			end
@@ -50,9 +56,10 @@ class TicketsController < ApplicationController
 		if params.has_key?(:log)
 			if @ticket.put_on_hold
 				log_this(@ticket.id, "En espera", params[:log][:content])
+				TicketMailer.hold_ticket_confirmation(@ticket).deliver
 				flash[:success] = "Ticket puesto en estado de espera!"
 			else
-				flash[:error] = "No pude cambiar el estado al ticket, verifica su estado!"
+				flash[:error] = "No pude cambiar el estado del ticket, verifica su estado!"
 			end
 			redirect_to @ticket
 		else
@@ -65,13 +72,29 @@ class TicketsController < ApplicationController
 		if params.has_key?(:log)
 			if @ticket.mark_as_closed
 				log_this(@ticket.id, "Marcado como cerrado", params[:log][:content])
+				TicketMailer.closing_ticket_confirmation(@ticket).deliver
 				flash[:success] = "Ticket marcado como cerrado!"
 			else
-				flash[:error] = "No pude cambiar el estado al ticket, verifica su estado!"
+				flash[:error] = "No pude cambiar el estado del ticket, verifica su estado!"
 			end
 			redirect_to @ticket
 		else
 			@log = Log.new
+		end
+	end
+
+	def confirm_closed
+		@ticket = Ticket.find(params[:id])
+		if @ticket.closing_token == params[:closing_token]
+			if @ticket.confirm_closed
+				log_this(@ticket.id, "Cerrado", "Ticket confirmado como resuelto!")
+				@survey = @ticket.create_survey!(tech_id: @ticket.assigned_tech.id, user_id: @ticket.user.id)
+				redirect_to @survey
+				flash[:success] = "Ticket confirmado como resuelto. Cerrando solicitud!"
+			end
+		else
+			flash[:error] = "Hubo un inconveniente con su solicitud. Quizás el ticket ya ha sido cerrado. Verifíque!"	
+			redirect_to @ticket
 		end
 	end
 
@@ -85,7 +108,7 @@ class TicketsController < ApplicationController
 				log_this(@ticket.id, "Reasignado", params[:log][:content])
 				flash[:success] = "Ticket reasignado!"
 			else
-				flash[:error] = "No pude cambiar el estado al ticket, verifica su estado!"
+				flash[:error] = "No pude cambiar el estado del ticket, verifica su estado!"
 			end
 			redirect_to @ticket
 		else

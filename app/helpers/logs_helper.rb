@@ -4,7 +4,8 @@ module LogsHelper
 		@log = Log.new
 		@log.ticket_id = ticket_id
 		@log.event = event
-		@log.content = content 
+		@log.content = content
+		 
 		if event == "Asignado" 
 			@log.user_id = 1
 		else

@@ -4,6 +4,7 @@ UacHelpdesk::Application.routes.draw do
 
   resources :users
   resources :tickets
+  resources :surveys
 
   resources :sessions,  only: [:new, :create, :destroy] 
   resources :logs,      only: [:create, :destroy] 
@@ -12,15 +13,18 @@ UacHelpdesk::Application.routes.draw do
   match '/about',   to: 'static_pages#about'
   match '/contact_us', to: 'static_pages#contact_us'
   
-  match '/signup', to: 'users#new'
-  match '/signin', to: 'sessions#new'
+  match '/signup',  to: 'users#new'
+  match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
 
   match '/subcategories', to: 'categories#subcategories'
 
-  match '/ticket/:id/hold', to: 'tickets#hold', as: :ticket_on_hold
+  match '/ticket/:id/hold',  to: 'tickets#hold', as: :ticket_on_hold
   match '/ticket/:id/close', to: 'tickets#close', as: :closing_ticket
+  match '/ticket/:id/confirm_closed', to: 'tickets#confirm_closed', as: :confirm_closed
   match '/ticket/:id/reassign', to: 'tickets#reassign', as: :reassign
+
+  match '/survey/:id/answer', to: 'surveys#answer', as: :answer_survey
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

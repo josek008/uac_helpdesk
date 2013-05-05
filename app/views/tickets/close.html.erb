@@ -1,5 +1,5 @@
 <% provide(:title, 'Cerrando ticket..') %>
-<h1>Cerrando ticket: <%= @ticket.id %></h1>
+<h1>Cerrando Ticket #<%= @ticket.id %></h1>
 <div class="row">
 	<div class="span8 offset3">
 		<%= form_for(@log, class: "form-horizontal", url: closing_ticket_url(id: @ticket.id)) do |f| %>

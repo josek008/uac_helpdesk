@@ -1,5 +1,5 @@
 <% provide(:title, 'Ticket en espera') %>
-<h1>Cambiando de estado a ticket: <%= @ticket.id %></h1>
+<h1>Cambiando de estado a Ticket #<%= @ticket.id %></h1>
 <div class="row">
 	<div class="span8 offset3">
 		<%= form_for(@log, class: "form-horizontal", url: ticket_on_hold_url(id: @ticket.id)) do |f| %>

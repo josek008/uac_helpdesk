@@ -1,0 +1,50 @@
+<% if @survey.answered? %>
+
+<% provide(:title, 'Encuesta de Satisfacción') %>
+<h1>Encuesta de Satisfacción #<%= @survey.id %></h1>
+<div class="row">
+	<div class="span8 offset2">
+		<legend>Detalle</legend>
+		<ul>
+			<li><strong>Técnico: </strong><%= @survey.tech.name %></li>
+			<li><strong>Realizada por: </strong><%= @survey.user.name %></li>
+			<li><strong>Fecha de Calificación: </strong>
+				<%= @survey.updated_at.strftime("%d %b. %Y - %r") %>
+			</li>
+			<li><strong>Calificación: </strong>
+				<span class="badge badge-<%= score_class(@survey.score.description) %>">
+					<%= @survey.score.description %>
+				</span>
+			</li>
+			<li><strong>Comentarios: </strong><%= @survey.comments %></li>
+		</ul>
+		<%= link_to "Ir al ticket", @survey.ticket, class: "btn btn-small btn-info" %>
+	</div>
+</div>
+
+<% else %>
+
+<% provide(:title, 'Encuesta de Satisfacción') %>
+<h1>Encuesta de Satisfacción #<%= @survey.id %></h1>
+<div class="row">
+	<div class="span8 offset2">
+		<legend>Detalle del Ticket</legend>
+		<%= render 'shared/ticket_detail' %>
+		<%= form_for(@survey, class: "form-horizontal", url: answer_survey_url(id: @survey.id)) do |f| %>
+		<%= render 'shared/error_messages', object: f.object %>
+
+		<div class="control-group">
+			<%= f.label :score, "¿Cómo califica el servicio prestado?" %>
+			<%= f.collection_select :score, @scores, :id, :description  %>
+		</div>
+
+		<div class="control-group">
+			<%= f.label :comments, "Comentarios" %>
+			<%= f.text_area :comments, placeholder: "Por favor ingrese sus comentarios acerca del servicio prestado.", required: true %>
+		</div>
+		<%= f.submit "Contestar", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>
+
+<% end %>
