@@ -21,11 +21,20 @@
 			<%= label_tag :category, "Selecciona la categoria secundaria:", class: "control-label" %>
 			<%= f.select :category_id, [], { :include_blank => true }, :disabled => true %>
 		</div>
-
+		
+		<% if current_user.admin? || current_user.tech? %>
 		<div class="control-group">
 			<%= f.label :ticket_type_id, "Selecciona el tipo de ticket:", class: "control-label" %>
-			<%= f.collection_select :ticket_type_id, @ticket_types, :id, :type_descr %>
+			<%= f.collection_select :ticket_type_id, @ticket_types, :id, :description, {:include_blank => true} %>
 		</div>
+
+		<div id="resolution_date_group">
+			<div class="control-group">
+				<%= f.label :resolution_date, "Fecha de Resolución:", class: "control-label" %>
+				<%= f.text_field :resolution_date, placeholder: "Selecciona la fecha limite de resolución..." %>
+			</div>
+		</div>
+		<% end %>
 
 		<div class="control-group">
 			<%= label_tag :content, "Detalle del Incidente", class: "control-label" %>

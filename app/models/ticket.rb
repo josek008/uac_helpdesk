@@ -1,10 +1,29 @@
+# == Schema Information
+#
+# Table name: tickets
+#
+#  id              :integer          not null, primary key
+#  description     :string(255)
+#  state           :string(255)
+#  closing_token   :string(255)
+#  resolution_date :datetime
+#  closed_date     :datetime
+#  user_id         :integer
+#  ticket_type_id  :integer          default(2)
+#  category_id     :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class Ticket < ActiveRecord::Base
-	attr_accessible :description, :category_id, :ticket_type_id
-	
-	default_scope order: 'tickets.created_at DESC'
-	scope :pending, where("state != 'Cerrado' OR state != 'Marcado como cerrado'")
+	attr_accessible :description, :category_id, :resolution_date, :ticket_type_id
+
+	scope :past_due, lambda { where("resolution_date < ?", Time.now ) }
+	scope :pending, where("state != 'Cerrado' AND state != 'Marcado como cerrado'")
+	scope :completed, where("state = 'Cerrado' OR state = 'Marcado como cerrado'")
 
 	has_many :logs, dependent: :destroy
+
 	has_one :assignment, dependent: :destroy
 	has_one :assigned_tech, through: :assignment, source: :user
 	has_one :survey, dependent: :destroy
@@ -12,12 +31,11 @@ class Ticket < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :category
 	belongs_to :survey_score
-	belongs_to :ticket_type
+	belongs_to :type, class_name: "TicketType", foreign_key: "ticket_type_id"
 	
 	validates :description, 	presence: true, length: { maximum: 200 }
 	validates :user_id, 		presence: true
 	validates :category_id, 		presence: true
-	validates :ticket_type_id,	 	presence: true
 
 	before_save :create_closing_token
 
@@ -57,18 +75,19 @@ class Ticket < ActiveRecord::Base
 
 	def assign_to(user)
 		create_assignment(user_id: user.id)
+		self.assign!
 	end
 
 	def deallocate_from(user)
-		assignments.find_by_user_id(user.id).destroy
+		assignment.find_by_user_id(user.id).destroy
 	end
 
-	def deallocate_from_all
-		assignments.destroy_all
+	def deallocate
+		assignment.destroy
 	end
 
 	def reassign_to(user)
-		deallocate_from_all
+		deallocate
 		assign_to(user)
 	end
 
@@ -76,6 +95,8 @@ class Ticket < ActiveRecord::Base
 		self.closed_date = Time.now
 		self.close!
 	end
+
+
 
 	private
 	

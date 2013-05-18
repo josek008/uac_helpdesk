@@ -72,12 +72,12 @@ ActiveRecord::Schema.define(:version => 20130505060549) do
   add_index "surveys", ["ticket_id"], :name => "index_surveys_on_ticket_id", :unique => true
 
   create_table "ticket_types", :force => true do |t|
-    t.string   "type_descr"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
-  add_index "ticket_types", ["type_descr"], :name => "index_ticket_types_on_type_descr", :unique => true
+  add_index "ticket_types", ["description"], :name => "index_ticket_types_on_description", :unique => true
 
   create_table "tickets", :force => true do |t|
     t.string   "description"
@@ -86,10 +86,10 @@ ActiveRecord::Schema.define(:version => 20130505060549) do
     t.datetime "resolution_date"
     t.datetime "closed_date"
     t.integer  "user_id"
-    t.integer  "ticket_type_id"
+    t.integer  "ticket_type_id",  :default => 2
     t.integer  "category_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   add_index "tickets", ["closing_token"], :name => "index_tickets_on_closing_token", :unique => true

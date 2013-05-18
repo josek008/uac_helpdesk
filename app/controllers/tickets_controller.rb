@@ -1,17 +1,35 @@
 # encoding: UTF-8
 
 class TicketsController < ApplicationController
-	before_filter :signed_in_user, 	only: [:index, :new, :create, :show, :confirm_closed]
+
+	helper_method :sort_column, :sort_direction
+
+	before_filter :signed_in_user, 	only: [:index, :new, :create, :confirm_closed]
+	before_filter :correct_user, 	only: :show
 	before_filter :admin_user, 		only: [:edit, :update, :destroy, :hold, :close]
 
 	def index
-		@tickets = current_user.tickets.paginate(page: params[:page])
+		@tickets = view_filter(params[:view_token]).paginate(page: params[:page])
+		@view_token = params[:view_token]
 	end
 
 	def show
 		@ticket = Ticket.find(params[:id])
 		@logs = @ticket.logs.paginate(page: params[:page])
 		@log = @ticket.logs.build
+	end
+
+	def search
+		if @ticket = Ticket.find_by_id(params[:id])
+			@logs = @ticket.logs.paginate(page: params[:page])
+			@log = @ticket.logs.build
+			redirect_to @ticket
+		else
+			@tickets = view_filter(params[:view_token]).paginate(page: params[:page])
+			@view_token = params[:view_token]
+			flash.now[:error] = "No existe un ticket con ese ID!"
+			render 'index'
+		end
 	end
 
 	def new
@@ -27,10 +45,9 @@ class TicketsController < ApplicationController
 		
 		if @ticket.save
 			log_this(@ticket.id, "Abierto", params[:content])
-			@random_tech = random_tech
-			if @ticket.assign_to(@random_tech)
-				@ticket.assign
-				log_this(@ticket.id, "Asignado", "Asignado automáticamente a #{@random_tech.name}")
+			@tech = random_tech
+			if @ticket.assign_to(@tech)
+				log_this(@ticket.id, "Asignado", "Asignado automáticamente a #{@tech.name}")
 				TicketMailer.opened_ticket_confirmation(@ticket).deliver
 				flash[:success] = "Tu ticket ha sido creado satisfactoriamente!!"
 				redirect_to root_url
@@ -131,8 +148,21 @@ class TicketsController < ApplicationController
 
 	private
 
+	def correct_user
+		@ticket = Ticket.find(params[:id])
+		redirect_to(root_path) unless current_user?(@ticket.user) || current_user.admin? || current_user.tech?
+	end
+
 	def admin_user
 		redirect_to (root_path) unless current_user.admin? || current_user.tech?
+	end
+
+	def sort_column
+		params[:sort] || "created_at"
+	end
+
+	def sort_direction
+		params[:direction] || "desc"
 	end
 
 end

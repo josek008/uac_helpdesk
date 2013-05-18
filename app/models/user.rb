@@ -18,7 +18,6 @@ class User < ActiveRecord::Base
 	attr_accessible :email, :name, :department_id, :password, :password_confirmation
 	
 	scope :is_tech, where(:tech => true)
-	scope :is_tech_with_pending_tickets, is_tech.joins(:assigned_tickets).merge(Ticket.pending)
 
 	has_many :tickets
 	has_many :assignments, dependent: :destroy

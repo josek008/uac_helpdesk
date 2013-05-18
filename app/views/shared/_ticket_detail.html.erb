@@ -1,11 +1,16 @@
 <ul>
 	<li><strong># de Ticket: </strong><%= @ticket.id %></li>
 	<li><strong>Descripción: </strong><%= @ticket.description %></li>
-	<li><strong>Categoría: </strong><%= @ticket.category.complete_name %></li>
-	<li><strong>Asignado a: </strong><%= @ticket.assigned_tech.name %></li>
 	<li><strong>Fecha de Creación: </strong><%= @ticket.created_at.strftime("%d %b. %Y - %r") %></li>
+	<% if @ticket.type.description == "Preventivo" %>
+	<li><strong>Tipo: </strong><span class="<%= type_class(@ticket.type.description)%>"><%= @ticket.type.description %></span>/li>
+	<li><strong>Fecha Limite de Resolución: </strong><%= @ticket.resolution_date.strftime("%d %b. %Y") %></li>
+	<% end %>
 	<% if @ticket.closed? %>
 	<li><strong>Fecha de Resolución: </strong><%= @ticket.closed_date.strftime("%d %b. %Y - %r") %></li>
 	<% end %>
+	<li><strong>Categoría: </strong><%= @ticket.category.complete_name %></li>
+	<li><strong>Creado por: </strong><%= @ticket.user.name %></li>
+	<li><strong>Asignado a: </strong><%= @ticket.assigned_tech.name %></li>
 	<li><strong>Estado: </strong><td><span class="<%= state_class(@ticket.state) %>"><%= @ticket.state %></span></li>
 </ul>

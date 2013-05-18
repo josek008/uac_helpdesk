@@ -11,8 +11,11 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery.ui.datepicker
 //= require jquery_ujs
 //= require bootstrap
+//= require dataTables/jquery.dataTables
+//= require dataTables/jquery.dataTables.bootstrap
 //= require_tree .
 
 
@@ -35,4 +38,50 @@ $(document).ready(function() {
 			select.attr('disabled', 'disabled');
 		}
 	});
+});
+
+// Ticket preventivo vs Ticket correctivo
+
+$(document).ready(function() {
+	select = $('#ticket_ticket_type_id');
+	$('#resolution_date_group').hide();
+
+	select.change(function(){
+		ticket_type = select.find(":selected").text();
+		if (ticket_type == "Preventivo") {
+			$('#resolution_date_group').slideDown();
+		} else {
+			$('#resolution_date_group').slideUp();
+			$('#ticket_resolution_date').val('');
+		}
+		
+	});
+});
+
+// jQuery Datepicker
+
+$(function (){
+	$('#ticket_resolution_date').datepicker({ minDate: 0, maxDate: "+2M"});
+});
+
+// Traducción al español
+$(function($){
+	$.datepicker.regional['es'] = {
+		closeText: 'Cerrar',
+		prevText: '<Ant',
+		nextText: 'Sig>',
+		currentText: 'Hoy',
+		monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+		monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+		dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+		dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+		weekHeader: 'Sm',
+		dateFormat: 'dd/mm/yy',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: ''
+	};
+	$.datepicker.setDefaults($.datepicker.regional['es']);
 });

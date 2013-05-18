@@ -2,7 +2,12 @@
 	<td><%= ticket.id %></td>
 	<td><%= ticket.description %></td>
 	<td><%= ticket.category.complete_name %></td>
+	<td><%= ticket.user.name %></td>
 	<td><%= ticket.assigned_tech.name %></td>
+	<% if current_user.admin? || current_user.tech? %>
+	<td><span class="<%= type_class(ticket.type.description)%>"><%= ticket.type.description %></span></td>
+	<td><%= ticket.type.description == "Preventivo" ? ticket.resolution_date.strftime("%d %b. %Y") : "-" %></td> 
+	<% end %>
 	<td><%= ticket.created_at.strftime("%d %b. %Y") %></td>
 	<td><span class="<%= state_class(ticket.state) %>"><%= ticket.state %></span></td>
 	<td>
@@ -16,8 +21,7 @@
 				<% if current_user.tech? || current_user.admin? %>
 				<% unless ticket.marked_as_closed? || ticket.closed? %>
 				<li><%= link_to 'Modificar <i class="icon-edit"></i>'.html_safe, edit_ticket_path(ticket.id) %></li>
-				<li><%= link_to 'Eliminar <i class="icon-remove"></i>'.html_safe, ticket, method: :delete,
-				data: { confirm: "¿Está seguro?" } %></li>
+				<li><%= link_to 'Eliminar <i class="icon-remove"></i>'.html_safe, ticket, method: :delete, data: { confirm: "¿Está seguro?" } %></li>
 				<li class="divider"></li>
 				<li class="dropdown-submenu pull-left">
 					<a tabindex="-1" href="#">Admin <i class="icon-lock"></i></a>

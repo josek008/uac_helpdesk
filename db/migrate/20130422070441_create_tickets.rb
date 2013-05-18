@@ -10,7 +10,7 @@ class CreateTickets < ActiveRecord::Migration
       t.datetime :closed_date
 
       t.integer :user_id
-      t.integer :ticket_type_id
+      t.integer :ticket_type_id, default: 2
       t.integer :category_id
 
       t.timestamps

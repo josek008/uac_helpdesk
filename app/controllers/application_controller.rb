@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 	include SessionsHelper
 	include LogsHelper
 	include UsersHelper
+	include TicketsHelper
 
 	def handle_unverified_request
 		sign_out

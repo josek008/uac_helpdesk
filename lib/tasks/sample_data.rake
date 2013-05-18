@@ -84,8 +84,8 @@ def make_users
 end
 
 def make_ticket_types
-	TicketType.create!(type_descr: "Preventivo")
-	TicketType.create!(type_descr: "Correctivo")
+	TicketType.create!(description: "Preventivo")
+	TicketType.create!(description: "Correctivo")
 end
 
 def make_survey_scores
@@ -135,8 +135,7 @@ def make_tickets
 		5.times do
 			description = Faker::Lorem.sentence(5)
 			ticket = user.tickets.create!(description: description,
-				category_id: Category.where("parent_id IS NOT NULL").sample.id,
-				ticket_type_id: TicketType.find_by_type_descr("Correctivo").id)
+				category_id: Category.where("parent_id IS NOT NULL").sample.id)
 
 			log = Log.create!(ticket_id: ticket.id, content: Faker::Lorem.sentence(5), user_id: user.id)
 			log.event = "Abierto"

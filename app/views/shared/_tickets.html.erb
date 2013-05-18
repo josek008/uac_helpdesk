@@ -1,37 +1,80 @@
-<% if @assigned_tickets.any? %>
-<h3>Tickets asignados</h3>
-
-<table class="table table-hover table-condensed">
-	<tr>
-		<td><strong>#</strong></td>
-		<td><strong>Descripción</strong></td>
-		<td><strong>Categoría</strong></td>
-		<td><strong>Asignado a</strong></td>
-		<td><strong>Fecha</strong></td>
-		<td><strong>Estado</strong></td>
-		<td><strong>Acciones</strong></td>
-	</tr>
-	<%= render partial: 'shared/ticket', collection: @assigned_tickets %>
+<h1><%= view_name(@view_token) %></h1>
+<%= hidden_field_tag "view_token", @view_token %>
+<div class="btn-group">
+	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+		Selecciona una vista
+		<span class="caret"></span>
+	</a>
+	<ul class="dropdown-menu">
+		<li class="dropdown-submenu">
+			<a tabindex="-1" href="#">Tickets creados por mí</a>
+			<ul class="dropdown-menu">
+				<li><%= link_to "Abiertos",  tickets_path(view_token: "my-opened-tickets") %></li>
+				<li><%= link_to "En espera", tickets_path(view_token: "my-tickets-on-hold") %></li>
+				<li><%= link_to "Resueltos", tickets_path(view_token: "my-resolved-tickets") %></li>
+				<li><%= link_to "Cerrados",  tickets_path(view_token: "my-closed-tickets") %></li>
+				<li><%= link_to "Vencidos",  tickets_path(view_token: "my-expired-tickets") %></li>
+				<li><%= link_to "Todos",     tickets_path(view_token: "my-tickets") %></li>
+			</ul>
+		</li>
+		<% if current_user.tech? %>
+		<li class="dropdown-submenu">
+			<a tabindex="-1" href="#">Tickets asignados a mí</a>
+			<ul class="dropdown-menu">
+				<li><%= link_to "Abiertos",  tickets_path(view_token: "assigned-opened-tickets") %></li>
+				<li><%= link_to "En espera", tickets_path(view_token: "assigned-tickets-on-hold") %></li>
+				<li><%= link_to "Resueltos", tickets_path(view_token: "assigned-resolved-tickets") %></li>
+				<li><%= link_to "Cerrados",  tickets_path(view_token: "assigned-closed-tickets") %></li>
+				<li><%= link_to "Vencidos",  tickets_path(view_token: "assigned-expired-tickets") %></li>
+				<li><%= link_to "Todos",     tickets_path(view_token: "assigned-tickets") %></li>
+			</ul>
+		</li>
+		<% end %>
+		<% if current_user.tech? || current_user.admin? %>
+		<li class="dropdown-submenu">
+			<a tabindex="-1" href="#">Todos los tickets</a>
+			<ul class="dropdown-menu">
+				<li><%= link_to "Abiertos",  tickets_path(view_token: "opened-tickets") %></li>
+				<li><%= link_to "En espera", tickets_path(view_token: "tickets-on-hold") %></li>
+				<li><%= link_to "Resueltos", tickets_path(view_token: "resolved-tickets") %></li>
+				<li><%= link_to "Cerrados",  tickets_path(view_token: "closed-tickets") %></li>
+				<li><%= link_to "Vencidos",  tickets_path(view_token: "expired-tickets") %></li>
+				<li><%= link_to "Todos",     tickets_path(view_token: "all-tickets") %></li>
+			</ul>
+		</li>
+		<% end %>
+	</ul>
+</div>
+<% if current_user.admin? || current_user.tech? %>
+<%= form_tag search_path do %> 
+<div class="input-append pull-right">
+	<%= text_field_tag "id", nil, placeholder: "ID del Ticket", class: "span2" %>
+	<%= submit_tag "Ir!", class: "btn" %>
+</div>
+<% end %>
+<% end %>
+<table id="tickets" class="table table-hover table-condensed">
+	<thead>
+		<th>#</th>
+		<th>Descripción</th>
+		<th>Categoría</th>
+		<th>Creado por</th>
+		<th>Asignado a</th>
+		<% if current_user.admin? || current_user.tech? %>
+		<th>Tipo</th>
+		<th>Vencimiento antes de</th>
+		<% end %>
+		<th>Fecha de Creación</th>
+		<th>Estado</th>
+		<th>Acciones</th>
+	</thead>
+	<tbody>
+		<% if @tickets.any? %>
+		<%= render partial: 'shared/ticket', collection: @tickets %>
+		<% else %>
+		<caption>No se encontró ningun ticket en esta vista</caption>
+		<% end %>
+	</tbody>
 </table>
 
 <%= will_paginate @tickets %>
-<% end %>
-
-<% if @tickets.any? %>
-<h3>Tickets creados</h3>
-
-<table class="table table-hover table-condensed">
-	<tr>
-		<td><strong>#</strong></td>
-		<td><strong>Descripción</strong></td>
-		<td><strong>Categoría</strong></td>
-		<td><strong>Asignado a</strong></td>
-		<td><strong>Fecha</strong></td>
-		<td><strong>Estado</strong></td>
-		<td><strong>Acciones</strong></td>
-	</tr>
-	<%= render partial: 'shared/ticket', collection: @tickets %>
-</table>
-
-<%= will_paginate @tickets %>
-<% end %>

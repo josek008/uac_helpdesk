@@ -24,6 +24,8 @@ UacHelpdesk::Application.routes.draw do
   match '/ticket/:id/confirm_closed', to: 'tickets#confirm_closed', as: :confirm_closed
   match '/ticket/:id/reassign', to: 'tickets#reassign', as: :reassign
 
+  match '/ticket/search/', to: 'tickets#search', as: :search
+
   match '/survey/:id/answer', to: 'surveys#answer', as: :answer_survey
 
   # The priority is based upon order of creation:
