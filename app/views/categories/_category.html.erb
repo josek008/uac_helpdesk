@@ -1,0 +1,16 @@
+<tr>
+	<td><%= category.parent.nil? ? link_to(category.name, category) : category.name %></td>
+	<td>
+		<% if category.parent.nil? %>
+		<%= category.subcategories.count %>
+		<% else %>
+		<%= category.tickets.count %>
+		<% end %>
+	<td>
+		<div class="btn-group">
+			<%= link_to 'Editar', edit_category_path(category), class: 'btn' unless category.parent.nil? %>
+			<%= link_to 'Eliminar', category, method: :delete,
+			data: {confirm: "Existen "+ pluralize(category.tickets.count, "ticket")+ " en esta categoria. Recomendamos que mueva todos los tickets a otra categoria, antes de eliminar esta. ¿Estás seguro de eliminarla?"}, class: 'btn' unless category.parent.nil? %></td>
+		</div>
+	</td>
+</tr>

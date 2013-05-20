@@ -34,7 +34,7 @@
 		<%= render 'shared/error_messages', object: f.object %>
 
 		<div class="control-group">
-			<%= f.label :score, "¿Cómo califica el servicio prestado?" %>
+			<%= f.label :score, "¿Cual es su nivel de satisfacción por el servicio prestado por #{@survey.tech.name}?" %>
 			<%= f.collection_select :score, @scores, :id, :description  %>
 		</div>
 

@@ -5,6 +5,7 @@ UacHelpdesk::Application.routes.draw do
   resources :users
   resources :tickets
   resources :surveys
+  resources :categories
 
   resources :sessions,  only: [:new, :create, :destroy] 
   resources :logs,      only: [:create, :destroy] 

@@ -2,8 +2,6 @@
 
 class TicketsController < ApplicationController
 
-	helper_method :sort_column, :sort_direction
-
 	before_filter :signed_in_user, 	only: [:index, :new, :create, :confirm_closed]
 	before_filter :correct_user, 	only: :show
 	before_filter :admin_user, 		only: [:edit, :update, :destroy, :hold, :close]
@@ -155,14 +153,6 @@ class TicketsController < ApplicationController
 
 	def admin_user
 		redirect_to (root_path) unless current_user.admin? || current_user.tech?
-	end
-
-	def sort_column
-		params[:sort] || "created_at"
-	end
-
-	def sort_direction
-		params[:direction] || "desc"
 	end
 
 end

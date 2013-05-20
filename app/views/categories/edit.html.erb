@@ -1,0 +1,14 @@
+<% provide(:title, 'Editar Subcategoría') %>
+<h1><%= "Editando Subcategoría" %></h1>
+
+<div class="row">
+	<div class="span4 offset3">
+		<%= form_for(@category, class: "form-horizontal") do |f| %>
+		<%= render 'shared/error_messages', object: f.object %>
+		<%= render 'fields', :f => f, :c => @category %>
+		<div class="actions">
+			<%= f.submit "Guardar", class: "btn btn-large btn-primary" %>
+		</div>
+		<% end %>
+	</div>
+</div>

@@ -3,6 +3,17 @@
 	<legend>Detalle</legend>
 	<%= render 'shared/ticket_detail' %>
 </section>
+<% if current_user.tech? || current_user.admin? %>
+<% unless @ticket.marked_as_closed? || @ticket.closed? %>
+<div class="btn-group">
+	<%= link_to 'Modificar <i class="icon-edit"></i>'.html_safe, edit_ticket_path(@ticket.id), class: 'btn' %>
+	<%= link_to 'Eliminar <i class="icon-remove"></i>'.html_safe, @ticket, method: :delete, data: { confirm: "¿Está seguro?" }, class: 'btn' %>
+	<%= link_to 'Reasignar <i class="icon-share-alt"></i>'.html_safe, reassign_url(id: @ticket.id), class: 'btn' %>
+	<%= link_to 'Poner en espera <i class="icon-time"></i>'.html_safe, ticket_on_hold_url(id: @ticket.id), class: 'btn' %>
+	<%= link_to 'Cerrar <i class="icon-ok"></i>'.html_safe, closing_ticket_url(id: @ticket.id),  class: 'btn' %>
+</div>
+<% end %>
+<% end %>
 
 <% unless @ticket.marked_as_closed? || @ticket.closed? %>
 <section>

@@ -1,0 +1,26 @@
+<% provide(:title, 'Categorias') %>
+<h1><%= @category.nil? ? "Categorias principales" : "Categoría: #{@category.name}" %></h1>
+<table class="table table-hover table-condensed">
+	<thead>
+		<th>Nombre</th>
+		<% if @category.nil? %>
+		<th># de Subcategorias</th>
+		<% else %>
+		<th># de Tickets</th>
+		<th>Acciones</th>
+		<% end %>
+	</thead>
+	<tbody>
+		<% if @categories.any? %>
+		<%= render @categories %>
+		<% else %>
+		<caption>Esta categoría no contiene subcategorias</caption>
+		<% end %>
+	</tbody>
+</table>
+
+<ul class="nav nav-pills">
+	<li><%= link_to 'Atrás', @category.parent.nil? ? categories_path : @category.parent unless @category.nil? %></li>
+	<li><%= link_to 'Nueva (subcategoria)', new_category_path(id: @category.id) unless @category.nil? %></li>
+</ul>
+

@@ -2,28 +2,28 @@ module TicketsHelper
 
 	def view_filter(view_token)
 		case view_token
-		when "my-opened-tickets" then current_user.tickets.pending.order(sort_column + ' ' + sort_direction)
-		when "my-tickets-on-hold" then current_user.tickets.order(sort_column + ' ' +sort_direction).find_all_by_state("En espera")
-		when "my-resolved-tickets" then current_user.tickets.completed.order(sort_column + ' ' + sort_direction)
-		when "my-closed-tickets" then current_user.tickets.order(sort_column + ' ' +sort_direction).find_all_by_state("Cerrado")
-		when "my-expired-tickets" then current_user.tickets.pending.past_due.order(sort_column + ' ' + sort_direction)
-		when "my-tickets" then current_user.tickets.order(sort_column + ' ' + sort_direction)
+		when "my-opened-tickets" then current_user.tickets.pending
+		when "my-tickets-on-hold" then current_user.tickets.find_all_by_state("En espera")
+		when "my-resolved-tickets" then current_user.tickets.completed
+		when "my-closed-tickets" then current_user.tickets.find_all_by_state("Cerrado")
+		when "my-expired-tickets" then current_user.tickets.pending.past_due
+		when "my-tickets" then current_user.tickets
 
-		when "assigned-opened-tickets" then current_user.assigned_tickets.pending.order(sort_column + ' ' + sort_direction)
-		when "assigned-tickets-on-hold" then current_user.assigned_tickets.order(sort_column + ' ' +sort_direction).find_all_by_state("En espera")
-		when "assigned-resolved-tickets" then current_user.assigned_tickets.completed.order(sort_column + ' ' + sort_direction)
-		when "assigned-closed-tickets" then current_user.assigned_tickets.order(sort_column + ' ' +sort_direction).find_all_by_state("Cerrado")
-		when "assigned-expired-tickets" then current_user.assigned_tickets.pending.past_due.order(sort_column + ' ' + sort_direction)
-		when "assigned-tickets" then current_user.assigned_tickets.order(sort_column + ' ' + sort_direction)
+		when "assigned-opened-tickets" then current_user.assigned_tickets.pending
+		when "assigned-tickets-on-hold" then current_user.assigned_tickets.find_all_by_state("En espera")
+		when "assigned-resolved-tickets" then current_user.assigned_tickets.completed
+		when "assigned-closed-tickets" then current_user.assigned_tickets.find_all_by_state("Cerrado")
+		when "assigned-expired-tickets" then current_user.assigned_tickets.pending.past_due
+		when "assigned-tickets" then current_user.assigned_tickets
 
-		when "opened-tickets" then Ticket.pending.order(sort_column + ' ' + sort_direction)
-		when "tickets-on-hold" then Ticket.order(sort_column + ' ' +sort_direction).find_all_by_state("En espera")
-		when "resolved-tickets" then Ticket.completed.order(sort_column + ' ' + sort_direction)
-		when "closed-tickets" then Ticket.order(sort_column + ' ' +sort_direction).find_all_by_state("Cerrado")
-		when "expired-tickets" then Ticket.pending.past_due.order(sort_column + ' ' + sort_direction)
-		when "all-tickets" then Ticket.order(sort_column + ' ' + sort_direction)
+		when "opened-tickets" then Ticket.pending
+		when "tickets-on-hold" then Ticket.find_all_by_state("En espera")
+		when "resolved-tickets" then Ticket.completed
+		when "closed-tickets" then Ticket.find_all_by_state("Cerrado")
+		when "expired-tickets" then Ticket.pending.past_due
+		when "all-tickets" then Ticket
 
-		else current_user.tickets.order(sort_column + ' ' + sort_direction)
+		else current_user.tickets
 			
 		end
 	end
