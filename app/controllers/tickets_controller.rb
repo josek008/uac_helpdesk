@@ -2,7 +2,7 @@
 
 class TicketsController < ApplicationController
 
-	before_filter :signed_in_user, 	only: [:index, :new, :create, :confirm_closed]
+	before_filter :signed_in_user, 	only: [:index, :new, :create, :show, :confirm_closed]
 	before_filter :correct_user, 	only: :show
 	before_filter :admin_user, 		only: [:edit, :update, :destroy, :hold, :close]
 
