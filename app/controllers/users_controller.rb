@@ -25,6 +25,7 @@ class UsersController < ApplicationController
 		
 		if @user.save
 			sign_in @user
+			UserMailer.welcome_user(@user).deliver
 			flash[:success] = "Bienvenido a UAC Helpdesk!"
 			redirect_to @user
 		else

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Bienvenido a UAC-Helpdesk.com, <%= @user.name %></h1>
+    <p>
+      Te has registrado correctamente a nuestro portal uac-helpdesk.com,
+      tu nombre de usuario es: <%= @user.email %>. <br/>
+    </p>
+    <p>
+      Para ingresar al sitio, solo haz click a este <% link_to "link", root_url %>.
+    </p>
+    <p>Gracias por unirte y que tengas un excelente día!</p>
+  </body>
+</html>
