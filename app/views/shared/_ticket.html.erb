@@ -21,7 +21,9 @@
 				<% if current_user.tech? || current_user.admin? %>
 				<% unless ticket.marked_as_closed? || ticket.closed? %>
 				<li><%= link_to 'Modificar <i class="icon-edit"></i>'.html_safe, edit_ticket_path(ticket.id) %></li>
-				<li><%= link_to 'Eliminar <i class="icon-remove"></i>'.html_safe, ticket, method: :delete, data: { confirm: "¿Está seguro?" } %></li>
+				<%if current_user.admin? %>
+				<li><%= link_to 'Eliminar <i class="icon-remove"></i>'.html_safe, ticket, method: :delete, data: { confirm: "¿Está seguro?" } if current_user.admin?  %></li>
+				<% end %>
 				<li class="divider"></li>
 				<li class="dropdown-submenu pull-left">
 					<a tabindex="-1" href="#">Admin <i class="icon-lock"></i></a>

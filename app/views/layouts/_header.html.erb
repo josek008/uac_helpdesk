@@ -26,8 +26,10 @@
 						<ul class="dropdown-menu">
 							<li><%= link_to "Mi Perfil", current_user %></li>
 							<li><%= link_to "Configuración", edit_user_path(current_user) %></li>
+							<% if current_user.admin? %>
 							<li><%= link_to "Administrar usuarios", users_path %></li>
 							<li><%= link_to "Administrar categorias", categories_path %></li>
+							<% end %>
 							<li class="divider"></li>
 							<li>
 								<%= link_to "Salir", signout_path, method: "delete" %>

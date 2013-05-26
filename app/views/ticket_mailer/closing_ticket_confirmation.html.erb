@@ -1,4 +1,4 @@
 <h1>Hola <%= @ticket.user.name %>!!!</h1>
 <p>Tu ticket #<%= @ticket.id %> ha sido marcado como resuelto.</p>
-<p>Por favor confirma lo anterior, haciendo clic en el <%= link_to "siguiente vinculo", confirm_closed_url(:id => @ticket.id, :closing_token => @ticket.closing_token) %> </p>
+<p>Por favor confirma lo anterior, haciendo clic en el <%= link_to "siguiente vinculo", confirm_closed_path(:id => @ticket.id, :closing_token => @ticket.closing_token) %> </p>
 <p><i>Gracias por utilizar <strong><%= link_to "UAC Helpdesk", root_url %></strong></i></p>  
