@@ -8,14 +8,6 @@ module UsersHelper
 		image_tag(gravatar_url, alt: user.name, class: "gravatar")
 	end
 
-	def user_role(user)
-		case
-		when user.tech? then "Técnico"
-		when user.admin? then "Admin"
-		when !user.admin? && !user.tech? then "Usuario"
-		end
-	end
-
 	def random_tech
 		tech = User.is_tech.sample
 	end

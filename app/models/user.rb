@@ -42,8 +42,31 @@ class User < ActiveRecord::Base
 	before_save { self.email.downcase! }
 	before_save :create_remember_token
 
-	def self.survey_avg_score
+	def survey_avg_score
 		service_surveys.average.(:score)
+	end
+
+	def be_tech
+		self.update_attribute(:tech, true)
+		self.update_attribute(:admin, false)
+	end
+
+	def be_admin
+		self.update_attribute(:tech, false)
+		self.update_attribute(:admin, true)
+	end
+
+	def be_normal
+		self.update_attribute(:tech, false)
+		self.update_attribute(:admin, false)
+	end
+
+	def role
+		case
+		when self.tech then "Tecnico"
+		when self.admin then "Admin"
+		else "Usuario"
+		end
 	end
 
 	private

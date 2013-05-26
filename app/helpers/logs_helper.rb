@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module LogsHelper
 
 	def log_this(ticket_id, event, content)

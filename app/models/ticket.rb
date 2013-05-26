@@ -88,15 +88,14 @@ class Ticket < ActiveRecord::Base
 
 	def reassign_to(user)
 		deallocate
-		assign_to(user)
+		create_assignment(user_id: user.id)
+		self.reassign!
 	end
 
 	def confirm_closed
 		self.closed_date = Time.now
 		self.close!
 	end
-
-
 
 	private
 	

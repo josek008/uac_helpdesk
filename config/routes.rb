@@ -29,6 +29,12 @@ UacHelpdesk::Application.routes.draw do
 
   match '/survey/:id/answer', to: 'surveys#answer', as: :answer_survey
 
+  match '/users/:id/role', to: 'users#assign_role', as: :assign_role
+
+  match '/users/:id/role/normal', to: 'users#be_normal', as: :user_be_normal
+  match '/users/:id/role/tech', to: 'users#be_tech', as: :user_be_tech
+  match '/users/:id/role/admin', to: 'users#be_admin', as: :user_be_admin
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

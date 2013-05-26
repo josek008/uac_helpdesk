@@ -69,11 +69,7 @@
 		<th>Acciones</th>
 	</thead>
 	<tbody>
-		<% if @tickets.any? %>
 		<%= render partial: 'shared/ticket', collection: @tickets %>
-		<% else %>
-		<caption>No se encontró ningun ticket en esta vista</caption>
-		<% end %>
 	</tbody>
 </table>
 

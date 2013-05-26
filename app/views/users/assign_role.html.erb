@@ -1,0 +1,11 @@
+<% provide(:title, 'Roles') %>
+<h1>Asignar rol a <%= @user.name %></h1>
+<p><strong>Rol actual: </strong><%= @user.role %></p>
+<p><strong>Promover a: </strong></p>
+<div>
+	<%= link_to 'Usuario', user_be_normal_url(id: @user.id) unless @user.role == 'Usuario' %>
+	<%= link_to 'Tecnico', user_be_tech_url(id: @user.id) unless @user.role == 'Tecnico' %>
+	<%= link_to 'Admin', user_be_admin_url(id: @user.id) unless @user.role == 'Admin' %>
+</div>
+
+
