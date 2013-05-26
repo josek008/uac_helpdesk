@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 	before_filter :admin_user,		only: [:destroy, :assign_role, :be_tech, :be_normal, :be_tech]
 	
 	def index
-		@users = User.paginate(page: params[:page])
+		@users = User.all
 	end
 
 	def show
