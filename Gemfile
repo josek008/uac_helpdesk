@@ -8,7 +8,6 @@ gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem "state_machine", "~> 1.2.0"
 
-
 gem 'mysql2'
 gem 'gravatarify', '3.0.0'
 
@@ -17,10 +16,13 @@ group :development, :test do
   gem 'guard-rspec', '1.2.1'
   gem 'guard-spork', '1.2.0'
   gem 'spork', '0.9.2'
+  gem 'railroady'
 end
 
 group :development do
   gem 'annotate', '2.5.0'
+  gem 'ruby-graphviz', '~> 1.0.9'
+  gem 'rails-erd'
 end
 
 # Gems used only for assets and not required
@@ -34,6 +36,7 @@ end
 gem 'jquery-rails', '2.0.2'
 gem 'jquery-ui-rails'
 gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+gem 'lazy_high_charts'
 
 
 group :test do

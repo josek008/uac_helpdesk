@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Reporte">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ID</Data></Cell>
+        <Cell><Data ss:Type="String">Nombre</Data></Cell>
+        <Cell><Data ss:Type="String">Email</Data></Cell>
+        <Cell><Data ss:Type="String"># de Tickets Asignados</Data></Cell>
+        <Cell><Data ss:Type="String"># de Tickets Pendientes</Data></Cell>
+        <Cell><Data ss:Type="String"># de Tickets Completados</Data></Cell>
+      </Row>
+    <% @tech.each do |t| %>
+      <Row>
+        <Cell><Data ss:Type="Number"><%= t.id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= t.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= t.email %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= t.assigned_tickets.count %></Data></Cell>        
+        <Cell><Data ss:Type="Number"><%= t.assigned_tickets.merge(Ticket.pending).count %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= t.assigned_tickets.merge(Ticket.completed).count %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

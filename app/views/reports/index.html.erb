@@ -1,0 +1,11 @@
+<% provide(:title, 'Reportes') %>
+<h1>Reportes</h1>
+<ul>
+	<li><%= link_to "Departamento", rep_department_path(format: "xls") %></li>
+	<li><%= link_to "Tickets", rep_tickets_path(format: "xls") %></li>
+	<li><%= link_to "Tecnicos", rep_tech_path(format: "xls") %></li>
+	<li><%= link_to "Categorias", rep_category_path(format: "xls") %></li>
+	<li><%= link_to "Encuestas", rep_surveys_path(format: "xls") %></li>
+</ul>
+
+

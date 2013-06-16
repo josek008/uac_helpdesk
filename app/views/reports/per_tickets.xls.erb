@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Reporte">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ID</Data></Cell>
+        <Cell><Data ss:Type="String">Descripcion</Data></Cell>
+        <Cell><Data ss:Type="String">Estado</Data></Cell>
+        <Cell><Data ss:Type="String">Creado Por</Data></Cell>
+        <Cell><Data ss:Type="String">Asignado A</Data></Cell>
+        <Cell><Data ss:Type="String">Fecha de Creacion</Data></Cell>
+        <Cell><Data ss:Type="String">Fecha de Cierre</Data></Cell>
+        <Cell><Data ss:Type="String">Fecha Limite de Resolucion</Data></Cell>
+        <Cell><Data ss:Type="String">Tipo de Ticket</Data></Cell>
+        <Cell><Data ss:Type="String">Categoria</Data></Cell>
+      </Row>
+    <% @tickets.each do |ticket| %>
+      <Row>
+        <Cell><Data ss:Type="Number"><%= ticket.id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.description %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.state %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.user.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.assigned_tech.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.created_at.strftime("%m/%d/%Y") unless ticket.created_at.nil? %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.closed_date.strftime("%m/%d/%Y") unless ticket.closed_date.nil? %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.resolution_date.strftime("%m/%d/%Y") unless ticket.resolution_date.nil? %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.type.description %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.category.name %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

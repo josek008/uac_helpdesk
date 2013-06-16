@@ -30,7 +30,6 @@ class Ticket < ActiveRecord::Base
 	
 	belongs_to :user
 	belongs_to :category
-	belongs_to :survey_score
 	belongs_to :type, class_name: "TicketType", foreign_key: "ticket_type_id"
 	
 	validates :description, 	presence: true, length: { maximum: 200 }
@@ -95,6 +94,15 @@ class Ticket < ActiveRecord::Base
 	def confirm_closed
 		self.closed_date = Time.now
 		self.close!
+	end
+
+	def to_csv(options = {})
+		CSV.generate(options) do |csv|
+			csv << column_names
+			all.each do |ticket|
+				csv << ticket.attributes.values_at(*column_names)
+			end
+		end
 	end
 
 	private

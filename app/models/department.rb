@@ -21,4 +21,13 @@ class Department < ActiveRecord::Base
 	has_many :tickets, through: :users
 
 	validates :name, presence: true, uniqueness: true
+
+	def to_csv(options = {})
+		CSV.generate(options) do |csv|
+			csv << column_names
+			all.each do |department|
+				csv << department.attributes.values_at(*column_names)
+			end
+		end
+	end
 end

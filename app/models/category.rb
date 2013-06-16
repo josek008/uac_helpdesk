@@ -28,4 +28,13 @@ class Category < ActiveRecord::Base
 	def complete_name
 		name = "#{self.parent.name} / #{self.name}"
 	end
+
+	def to_csv(options = {})
+		CSV.generate(options) do |csv|
+			csv << column_names
+			all.each do |category|
+				csv << category.attributes.values_at(*column_names)
+			end
+		end
+	end
 end

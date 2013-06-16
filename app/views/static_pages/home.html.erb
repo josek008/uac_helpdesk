@@ -8,14 +8,19 @@
 		<section>
 			<%= render 'shared/stats' %>
 		</section>
-		<section>
-			<%= render 'shared/category_widget' %>
-		</section>
-		<section>
-			<%= render 'shared/department_widget' %>
-		</section>
 	</aside>
 </div>
+
+
+<% if current_user.admin? || current_user.tech? %>
+
+<div id="tickets_per_day_chart"></div>
+<div id="tickets_per_dept"></div>
+
+<%= high_chart("tickets_per_day_chart", @tickets_per_day_chart) %> 
+<%= high_chart("tickets_per_dept", @tickets_per_dept) %>
+<% end %>
+
 <% else %>
 <div class = "center hero-unit">
 	<h1>Bienvenido a UAC Helpdesk</h1>

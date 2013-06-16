@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Reporte">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ID</Data></Cell>
+        <Cell><Data ss:Type="String">Ticket ID</Data></Cell>
+        <Cell><Data ss:Type="String">Tecnico evaluado (E-mail)</Data></Cell>
+        <Cell><Data ss:Type="String">Tecnico evaluado (Nombre)</Data></Cell>
+        <Cell><Data ss:Type="String">Evaluado por (E-mail)</Data></Cell>
+        <Cell><Data ss:Type="String">Evaluado por (Nombre)</Data></Cell>
+        <Cell><Data ss:Type="String">Puntaje</Data></Cell>
+      </Row>
+    <% @surveys.each do |s| %>
+      <Row>
+        <Cell><Data ss:Type="Number"><%= s.id %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= s.ticket.id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= s.tech.email %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= s.tech.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= s.user.email %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= s.user.name %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= s.score.id %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

@@ -1,5 +1,53 @@
 module TicketsHelper
 
+	def tickets_per_day
+		tickets_day = []
+		days = (29.days.ago.to_date..Date.today).to_a
+		days.each do |d|
+			tickets_day << Ticket.find(:all, :conditions => ["created_at BETWEEN ? AND ?", d.to_time.at_beginning_of_day, d.to_time.end_of_day]).count
+		end
+		tickets_day
+	end
+
+	def tickets_per_day_chart
+		@data = tickets_per_day
+
+		@h = LazyHighCharts::HighChart.new('graph') do |f|
+			f.options[:title][:text] = "Tickets por dia"
+			f.options[:subtitle][:text] = "Ultimos 30 dias"
+			f.options[:chart][:defaultSeriesType] = "line"
+			f.options[:chart][:inverted] = false
+			f.options[:chart][:zoomType] = 'x'
+			f.options[:legend][:layout] = "horizontal"
+			f.options[:legend][:borderWidth] = "0"
+			f.series(:pointInterval => 1.day, :pointStart => 29.days.ago.to_date, :name => '# de Tickets', :color => "#2cc9c5", :data => @data )
+			f.options[:xAxis] = {:minTickInterval => 1, :type => "datetime", :dateTimeLabelFormats => { day: "%b %e"}, :title => { :text => nil }, :labels => { :enabled => true } }
+			f.options[:yAxis] = {:title => {:text => "# de Tickets"}, :min => 0}
+		end
+
+		@h
+	end
+
+	def tickets_per_dept_chart
+		@departments = Department.top.limit(5).all
+
+		@h = LazyHighCharts::HighChart.new('graph') do |f|
+			f.options[:title][:text] = "Tickets por Departamento"
+			f.options[:subtitle][:text] = "#{Date.today.strftime("%B")}"
+			f.options[:chart][:defaultSeriesType] = "column"
+			f.options[:chart][:inverted] = false
+			f.options[:legend][:layout] = "horizontal"
+			f.options[:legend][:borderWidth] = "0"
+			@departments.each do |d|
+				f.series(:name => d.name, :data => [d.tickets.count])
+			end
+			f.options[:xAxis] = {:categories => ["#{Date.today.strftime("%B")}"]} 
+			f.options[:yAxis] = {:title => {:text => "# de Tickets"}, :minTickInterval => 1}
+		end
+
+		@h
+	end
+
 	def view_filter(view_token)
 		case view_token
 		when "my-opened-tickets" then current_user.tickets.pending
@@ -24,7 +72,7 @@ module TicketsHelper
 		when "all-tickets" then Ticket
 
 		else current_user.tickets
-			
+
 		end
 	end
 
@@ -52,7 +100,7 @@ module TicketsHelper
 		when "all-tickets" then "Todos los tickets"
 
 		else "Todos mis tickets"
-			
+
 		end
 	end
 

@@ -6,9 +6,10 @@ UacHelpdesk::Application.routes.draw do
   resources :tickets
   resources :surveys
   resources :categories
-
+  
   resources :sessions,  only: [:new, :create, :destroy] 
   resources :logs,      only: [:create, :destroy] 
+  resources :reports,   only: [:index]
 
   match '/help',    to: 'static_pages#help'
   match '/about',   to: 'static_pages#about'
@@ -34,6 +35,12 @@ UacHelpdesk::Application.routes.draw do
   match '/users/:id/role/normal', to: 'users#be_normal', as: :user_be_normal
   match '/users/:id/role/tech', to: 'users#be_tech', as: :user_be_tech
   match '/users/:id/role/admin', to: 'users#be_admin', as: :user_be_admin
+
+  match '/reports/by_department', to: 'reports#per_department', as: :rep_department
+  match '/reports/by_tickets', to: 'reports#per_tickets', as: :rep_tickets
+  match '/reports/by_tech', to: 'reports#per_tech', as: :rep_tech
+  match '/reports/by_category', to: 'reports#per_category', as: :rep_category
+  match '/reports/by_survey', to: 'reports#per_surveys', as: :rep_surveys
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
