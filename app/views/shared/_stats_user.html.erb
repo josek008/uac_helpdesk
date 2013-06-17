@@ -1,20 +1,20 @@
-<a href="#">
-	<strong id="assigned" class="stat">
-		<%= @user.tickets.count %>
-	</strong>
-	creados
-</a>
-
-<a href="#">
-	<strong id="pending" class="stat">
-		<%= @user.tickets.merge(Ticket.pending).count %>
-	</strong>
-	pendientes
-</a>
-
-<a href="#">
-	<strong id="completed" class="stat">
-		<%= @user.tickets.find_all_by_state("Cerrado").count %>
-	</strong>
-	completados
-</a>
+<div class="stat">
+	<span class="stat-name">Creados</span>
+	<span class="stat-value"><%= @user.tickets.count %></span>
+</div>
+<div class="stat">
+	<span class="stat-name">Abiertos</span>
+	<span class="stat-value"><%= @user.tickets.merge(Ticket.pending).count %></span>
+</div>
+<div class="stat">
+	<span class="stat-name">Por cerrar</span>
+	<span class="stat-value"><%= @user.tickets.find_all_by_state("Marcado como cerrado").count %></span>
+</div>
+<div class="stat">
+	<span class="stat-name">Cerrados</span>
+	<span class="stat-value"><%= @user.tickets.find_all_by_state("Cerrado").count %></span>
+</div>
+<div class="stat">
+	<span class="stat-name">En Espera</span>
+	<span class="stat-value"><%= @user.tickets.find_all_by_state("En espera").count %></span>
+</div>

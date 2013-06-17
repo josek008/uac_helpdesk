@@ -148,23 +148,28 @@ aside {
 }
 
 .stats {
-  overflow: auto;
-  a {
-    float: left;
-    padding: 0 10px;
-    border-left: 1px solid $grayLighter;
-    color: gray;
-    &:first-child {
-      padding-left: 0;
-      border: 0;
-    }
-    &:hover {
-      text-decoration: none;
-      color: $blue;
-    }
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.stat {
+  display: inline-block;
+  text-align: center;
+  padding: 5px 15px;
+  border-right: 1px solid #ddd;
+  &:last-child {
+    border-right: 0;
   }
-  strong {
+  .stat-name {
     display: block;
+  }
+  .stat-value {
+    font-size: 32px;
+    font-weight: bold;
+    display: block;
+    margin-top: 5px;
   }
 }
 
@@ -181,7 +186,6 @@ aside {
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
-  padding: 10px;
   margin-bottom: 15px;
   @include box_sizing;
 }
@@ -201,9 +205,9 @@ input {
 .field_with_errors {
   @extend .control-group;
   @extend .error;
- }
+}
 
- /* users index */
+/* users index */
 
 .users {
   list-style: none;

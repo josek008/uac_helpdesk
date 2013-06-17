@@ -90,6 +90,22 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def reset_password
+		if params.has_key?(:email)
+			@user = User.find_by_email(params[:email])
+			if @user
+				@new_password = random_password
+				@user.update_password(@new_password)
+				UserMailer.reset_password_user(@user).deliver
+				flash[:success] = "Contraseña restablecida satisfactoriamente"
+				redirect_to root_url
+			else
+				flash[:success] = "No se encontró un usuario con la cuenta de correo electrónico ingresado. Verifique."
+				redirect_to root_url
+			end
+		end
+	end
+	
 	private 
 
 	def correct_user

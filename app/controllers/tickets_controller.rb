@@ -18,7 +18,7 @@ class TicketsController < ApplicationController
 	end
 
 	def search
-		if @ticket = Ticket.find_by_id(params[:id])
+		if @ticket = Ticket.find(params[:id])
 			@logs = @ticket.logs.paginate(page: params[:page])
 			@log = @ticket.logs.build
 			redirect_to @ticket

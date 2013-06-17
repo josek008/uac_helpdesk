@@ -18,6 +18,8 @@
 class Ticket < ActiveRecord::Base
 	attr_accessible :description, :category_id, :resolution_date, :ticket_type_id
 
+	default_scope order('created_at DESC')
+
 	scope :past_due, lambda { where("resolution_date < ?", Time.now ) }
 	scope :pending, where("state != 'Cerrado' AND state != 'Marcado como cerrado'")
 	scope :completed, where("state = 'Cerrado' OR state = 'Marcado como cerrado'")

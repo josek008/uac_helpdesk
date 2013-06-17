@@ -36,6 +36,8 @@ UacHelpdesk::Application.routes.draw do
   match '/users/:id/role/tech', to: 'users#be_tech', as: :user_be_tech
   match '/users/:id/role/admin', to: 'users#be_admin', as: :user_be_admin
 
+  match '/reset_password', to: 'users#reset_password'
+
   match '/reports/by_department', to: 'reports#per_department', as: :rep_department
   match '/reports/by_tickets', to: 'reports#per_tickets', as: :rep_tickets
   match '/reports/by_tech', to: 'reports#per_tech', as: :rep_tech

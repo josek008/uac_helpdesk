@@ -61,6 +61,10 @@ class User < ActiveRecord::Base
 		self.update_attribute(:admin, false)
 	end
 
+	def update_password(new_password)
+		self.update_attribute(:password, new_password)
+	end
+
 	def role
 		case
 		when self.tech then "Tecnico"

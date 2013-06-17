@@ -17,5 +17,6 @@ jQuery ->
 				sNext: "Siguiente"
 				sLast: "Último"
 					
+		aaSorting: [[7, "desc"]]
 		bPaginate: false,
 		sDom: 't'
