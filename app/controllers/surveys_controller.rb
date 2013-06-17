@@ -32,7 +32,7 @@ class SurveysController < ApplicationController
 
 	def correct_user
 		@survey = Survey.find(params[:id])
-		redirect_to(root_path) unless current_user?(@survey.user)
+		redirect_to(root_path) unless current_user?(@survey.user) || current_user.admin?
 	end
 
 	def admin_user
